@@ -9,3 +9,6 @@
 
 # ==== Rendered site output ====
 docs/
+
+/.quarto/
+**/*.quarto_ipynb

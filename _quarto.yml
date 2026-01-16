@@ -15,11 +15,36 @@ website:
       - section: "Projects"
         contents:
           #- projects/my_project.qmd
+  navbar:
+    left:
+      - text: "Home"
+        href: https://mtfehl.github.io/econ_portfolio/
+      - text: "Portfolio"
+        href: https://mtfehl.github.io/econ_portfolio/projects.html
+      - text: "Classes"
+        menu:
+          - text: "Geospatial"
+            href: https://mtfehl.github.io/geospatial/
+      - text: "About Me"
+        href: https://mtfehl.github.io/econ_portfolio/about.html
+      - text: "CV"          
+        href: https://mtfehl.github.io/econ_portfolio/file/Fehl_Michael.pdf
+    right:
+      - icon: github
+        href: https://github.com/mtfehl
+        #aria-label: GitHub
+      - icon: linkedin
+        href: https://linkedin.com/in/michael-t-fehl
+        #aria-label: LinkedIn
+      - icon: envelope
+        href: "mailto:michaelthomasfehl@gmail.com"
+        #aria-label: Email
+      
 
 format:
   html:
     theme:
-      dark: [darkly]#, theme-dark.scss]
+      dark: [darkly, theme-dark.scss]
       light: [cosmo]#, theme-light.scss]
     toc: true               
     number-sections: false
@@ -34,4 +59,3 @@ knitr:
   opts_chunk:
     message: false
     warning: false
-    
