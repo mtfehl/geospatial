@@ -24,7 +24,7 @@ website:
       - text: "Classes"
         menu:
           - text: "Geospatial"
-            href: https://mtfehl.github.io/geospatial/
+            href: index.qmd
       - text: "About Me"
         href: https://mtfehl.github.io/econ_portfolio/about.html
       - text: "CV"          
