@@ -1,0 +1,8 @@
+"0","# single point"
+"0","geom_point <- c(2,4)"
+"0","single_pt <- st_point(geom_point)"
+"0","st_as_text(single_pt)"
+"1","[1]"
+"1"," ""POINT (2 4)"""
+"1","
+"

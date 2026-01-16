@@ -1,0 +1,8 @@
+"0","# single line"
+"0","geom_singlepoly <- list(rbind(c(2,4), c(1,5), c(0,2), c(1,0), c(2,4)))"
+"0","single_poly <- st_polygon(geom_singlepoly)"
+"0","st_as_text(single_poly)"
+"1","[1]"
+"1"," ""POLYGON ((2 4, 1 5, 0 2, 1 0, 2 4))"""
+"1","
+"

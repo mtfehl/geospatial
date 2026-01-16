@@ -1,0 +1,17 @@
+{
+  "index.qmd": {
+    "index.html": "7e2a2b01"
+  },
+  "notes/01/01.qmd": {
+    "01.html": "0aab5df9"
+  },
+  "notes/Python/01/01.qmd": {
+    "01.html": "594dfb2e"
+  },
+  "notes/R/01/01.qmd": {
+    "01.html": "bafca09a"
+  },
+  "notes/R/01/01.knit.md": {
+    "01.knit.html": "8e32f1eb"
+  }
+}

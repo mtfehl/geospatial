@@ -1,0 +1,69 @@
+/*-- scss:defaults --*/
+// good website for contrasts: https://colourcontrast.cc/
+
+// Color Palette
+$theme-black: #181818;
+$theme-gray: #ccc;
+$theme-blue: #75AADB;
+$theme-green: #00bc8c;
+$theme-purple: #8e44ad;
+$theme-orange: #f39c12;
+$theme-red: #FF0000;
+
+/* Document Colors */
+$bg-color: $theme-black;
+$body-color: $theme-gray;
+$link-color: $theme-blue;
+
+/* Fonts */ 
+// website to help select fonts: https://fonts.google.com/
+// here we stick with the cosmo default (looks nice)
+
+// header font: normal text font, code font and no more
+
+// Headers
+
+// Code blocks
+$code-block-bg-alpha: -.9;
+$code-block-border-left: #31BAE9;
+$code-block-border-left-style: solid;
+$code-block-border-left-size: 3px;
+$code-block-padding-left: 0.6em;
+$code-block-bg-padding: 0.4em;
+
+/*-- scss:rules --*/
+
+h1 {
+  color: $theme-red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
