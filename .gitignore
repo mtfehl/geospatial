@@ -1,0 +1,11 @@
+# ==== RStudio temporary files ====
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# ==== Quarto intermediate / cache files ====
+.quarto/
+
+# ==== Rendered site output ====
+docs/
