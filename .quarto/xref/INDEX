@@ -13,5 +13,11 @@
   },
   "notes/R/01/01.knit.md": {
     "01.knit.html": "8e32f1eb"
+  },
+  "problem_sets/01ps/01ps.qmd": {
+    "01ps.html": "50e2be71"
+  },
+  "projects/project01/project01.qmd": {
+    "project01.html": "b81442b1"
   }
 }

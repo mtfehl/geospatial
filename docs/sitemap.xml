@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://mtfehl.github.io/geospatial/projects/project01/project01.html</loc>
+    <lastmod>2026-01-17T21:12:45.187Z</lastmod>
+  </url>
+  <url>
     <loc>https://mtfehl.github.io/geospatial/notes/01/01.html</loc>
     <lastmod>2026-01-17T00:54:37.536Z</lastmod>
   </url>
   <url>
     <loc>https://mtfehl.github.io/geospatial/index.html</loc>
-    <lastmod>2026-01-08T09:21:20.252Z</lastmod>
+    <lastmod>2026-01-17T01:24:24.031Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mtfehl.github.io/geospatial/problem_sets/01ps/01ps.html</loc>
+    <lastmod>2026-01-17T21:16:05.404Z</lastmod>
   </url>
 </urlset>
