@@ -4,7 +4,7 @@ project:
 
 website:
   title: "Geospatial Data Science & Economic Spatial Models"
-  site-url: "https://mtfehl.github.io/geospatial/"
+  site-url: https://mtfehl.github.io/geospatial/
   search: true            
   sidebar:
     style: "floating"
