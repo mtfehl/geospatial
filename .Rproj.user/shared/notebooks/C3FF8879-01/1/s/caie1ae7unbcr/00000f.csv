@@ -1,8 +1,0 @@
-"0","# multiple points"
-"0","geom_multipoints <- rbind(c(2,4), c(1,5), c(0,2), c(1,0))"
-"0","multipts <- st_multipoint(geom_multipoints)"
-"0","st_as_text(multipts)"
-"1","[1]"
-"1"," ""MULTIPOINT ((2 4), (1 5), (0 2), (1 0))"""
-"1","
-"

@@ -17,7 +17,6 @@ Bruno's Office: 20.1E64 (by cafeteria)
 
 ```{r r_packages, echo=FALSE}
 # set up
-setwd("C:/Users/T14/7Programming/R/class/geospatial/notes/01")
 rm(list=ls())
 libs <- c("tidyverse",            # tidyverse universe
               "sf",               # vectorized spatial data: 'simple features'
