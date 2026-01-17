@@ -1,6 +1,11 @@
 ---
 title: "Home"
-format: html
+format: 
+  html:
+    theme:
+      dark: [darkly] #, dark-theme.cscc]
+      light: [cosmo] #, light-theme.cscc]
+  
 description: ""
 ---
 

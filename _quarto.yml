@@ -45,8 +45,8 @@ website:
 format:
   html:
     theme:
-      dark: [darkly]#, theme-dark.scss]
-      light: [cosmo]#, theme-light.scss]
+      dark: [darkly] #, theme-dark.scss]
+      light: [cosmo] #, theme-light.scss]
     toc: true               
     number-sections: false
     code-fold: false       
