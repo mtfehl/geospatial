@@ -13,9 +13,12 @@ website:
         contents:
           - notes/01/01.qmd
           #- notes/02/02.qmd
+      - section: "Problem Sets"
+        contents: 
+          - problem_sets/01ps/01ps.qmd
       - section: "Projects"
         contents:
-          #- projects/my_project.qmd
+          - projects/project01/project01.qmd
   navbar:
     left:
       - text: "Home"
@@ -26,6 +29,12 @@ website:
         menu:
           - text: "Geospatial"
             href: index.qmd
+          - text: "Time Series Econometrics"
+            href: https://mtfehl.github.io/finc_metrics/
+          - text: "Networks: Concepts & Algorithms"
+            href: https://mtfehl.github.io/networks/
+          - text: "Econometrics: Panel Data"
+            href: https://mtfehl.github.io/econometrics2/
       - text: "About Me"
         href: https://mtfehl.github.io/econ_portfolio/about.html
       - text: "CV"          
