@@ -7,12 +7,13 @@
 # Quarto internals
 .quarto/
 _freeze/
-# This catches all Quarto cache folders like 01ps_cache/
+# Quarto cache folders
 *_cache/
 **/*.quarto_ipynb
 
-# Spatial Data 
+# Spatial Data
 **/*.shp/
 **/*.dbf/
 **/*.prj/
 **/*.shx/
+/.quarto/

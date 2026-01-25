@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Geospatial Data Science & Economic Spatial Models"
 listing:
   - id: class-notes
     contents: 

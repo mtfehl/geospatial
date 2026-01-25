@@ -3,10 +3,13 @@
 
 // Color Palette
 $theme-black: #181818;
+$theme-space-black: #0f152a;
+$theme-space-gray: #b0a8e0;
 $theme-gray: #ccc;
 $theme-blue: #31BAE9;
 $theme-green: #00bc8c;
-$theme-purple: #5e44aa;
+$theme-purple: #6552D0;
+$theme-dark-purple: #6552d066;
 $theme-orange: #f39c12;
 $theme-red: #FF0000;
 $theme-white: #ffffff;
@@ -17,15 +20,18 @@ $body-color: $theme-gray;
 $link-color: $theme-blue;
 
 /* Nav Bar Colors */
-$navbar-color: linear-gradient(to right, darken($theme-purple, 18%), $theme-purple);
+$navbar-color: $theme-space-black;
+$navbar-border-color: $theme-purple;
 $navbar-text-color: $theme-white;
 $navbar-text-hover-color: $theme-blue;
-$navbar-icon-color: $theme-white;
-$navbar-border-color: $theme-purple;
+$navbar-icon-color: $theme-space-gray;
 $navbar-button-active-color: $theme-purple;
 
 /* Side Bar Colors */
 $sidebar-bg: $bg-color;
+
+/* Grid Box Items */
+$grid-item-glow: $theme-dark-purple;
 
 
 /* Fonts */ 
@@ -115,8 +121,17 @@ h3 {
   background-color: $sidebar-bg !important;
 }
 
-
-
+// grid items
+.quarto-grid-item {
+    background-color: $theme-space-black; 
+    border: 1px solid $theme-white;
+    border-radius: 8px;
+    transition: transform 0.2s;
+    &:hover{
+      transform: translateY(-5px); 
+      box-shadow: 0 0 15px $grid-item-glow; 
+    }
+}
 
 
 
