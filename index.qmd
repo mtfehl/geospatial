@@ -1,11 +1,61 @@
 ---
 title: "Home"
-format: 
-  html:
-    theme:
-      dark: [darkly] #, dark-theme.cscc]
-      light: [cosmo] #, light-theme.cscc]
-  
-description: ""
+listing:
+  - id: class-notes
+    contents: 
+      - notes/01
+      - notes/02
+    include:
+      class-notes: true
+    type: grid
+    grid-columns: 3
+    categories: false
+    fields: [image, title, reading-time, description]
+    
+  - id: problem-sets
+    contents: 
+      - problem_sets/01ps
+      #- problem_sets/02ps
+    include:
+      problem-set: true
+    type: grid
+    grid-columns: 3
+    sort: "date desc"
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    fields: [image, title, reading-time, description]
+    
+  - id: projects
+    contents: 
+      - projects/project01
+      #- projects/project02
+    include:
+      project: true
+    type: grid
+    grid-columns: 3
+    sort: "date desc"
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    fields: [image, title, reading-time, description]
 ---
 
+## Class Notes
+
+::: {#class-notes}
+
+:::
+
+## Problem Sets
+
+::: {#problem-sets}
+
+:::
+
+
+## Projects
+
+::: {#projects}
+
+:::

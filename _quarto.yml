@@ -3,69 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Geospatial Data Science & Economic Spatial Models"
   site-url: "https://mtfehl.github.io/geospatial/"
-  search: true            
-  sidebar:
-    style: "floating"
-    contents:
-      - section: "Class Notes"
-        contents:
-          - notes/01/01.qmd
-          #- notes/02/02.qmd
-      - section: "Problem Sets"
-        contents: 
-          - problem_sets/01ps/01ps.qmd
-      - section: "Projects"
-        contents:
-          - projects/project01/project01.qmd
-  navbar:
-    left:
-      - text: "Home"
-        href: https://mtfehl.github.io/econ_portfolio/
-      - text: "Portfolio"
-        href: https://mtfehl.github.io/econ_portfolio/projects.html
-      - text: "Classes"
-        menu:
-          - text: "Geospatial"
-            href: index.qmd
-          - text: "Econometrics: Time Series"
-            href: https://mtfehl.github.io/finc_metrics/
-          - text: "Networks: Concepts & Algorithms"
-            href: https://mtfehl.github.io/networks/
-          - text: "Econometrics: Panel Data"
-            href: https://mtfehl.github.io/econometrics2/
-      - text: "About Me"
-        href: https://mtfehl.github.io/econ_portfolio/about.html
-      - text: "CV"          
-        href: https://mtfehl.github.io/econ_portfolio/file/Fehl_Michael.pdf
-    right:
-      - icon: github
-        href: https://github.com/mtfehl
-        #aria-label: GitHub
-      - icon: linkedin
-        href: https://linkedin.com/in/michael-t-fehl
-        #aria-label: LinkedIn
-      - icon: envelope
-        href: "mailto:michaelthomasfehl@gmail.com"
-        #aria-label: Email
-      
-
-format:
-  html:
-    theme:
-      dark: [darkly] #, theme-dark.scss]
-      light: [cosmo] #, theme-light.scss]
-    toc: true               
-    number-sections: false
-    code-fold: false       
-    fig-width: 6
-    fig-height: 4
-    toc-depth: 4
-    toc-location: right
-    smooth-scroll: true 
-    
-knitr:
-  opts_chunk:
-    message: false
-    warning: false
+  
+metadata-files:
+  - ../../../_website.yml

@@ -1,0 +1,92 @@
+/*-- scss:defaults --*/
+// good website for contrasts: https://colourcontrast.cc/
+
+// Color Palette
+$theme-black: #181818;
+$theme-gray: #ccc;
+$theme-blue: #31BAE9;
+$theme-green: #00bc8c;
+$theme-purple: #8e44ad;
+$theme-orange: #ff9966;
+$theme-red: #ff5e62;
+$theme-white: white;
+
+// Document colors
+$bg-color: $theme-white;
+$body-color: $theme-black;
+$link-color: $theme-purple;
+
+// Nav Bar colors
+$navbar-color: linear-gradient(to right, darken($theme-orange, 10%), darken($theme-orange, 2%));
+$navbar-text-color: $theme-black;
+$navbar-text-hover-color: $theme-purple;
+$navbar-icon-color: $theme-black;
+
+
+/*-- scss:rules --*/
+
+// Global doc settings
+body{
+  background-color: $bg-color;
+}
+
+// Headers
+h1 {
+  color: $theme-black;
+}
+
+h2 {
+  color: $theme-black;
+}
+
+h3 {
+  color: $theme-black;
+}
+
+
+
+// Breadcrumb (pathway)
+.breadcrumb {
+  --bs-breadcrumb-bg: $bg-color;
+}
+
+// Nav Bar
+.navbar{
+  background: $navbar-color;
+  --bs-navbar-color: $navbar-text-color;
+  --bs-navbar-hover-color: $navbar-text-hover-color;
+  --bs-navbar-brand-color: $navbar-text-color;
+  --bs-navbar-padding-x: 10px;
+  --bs-navbar-padding-y: 5px;
+  
+  
+    // website tite: "Michael Fehl"
+  .navbar-brand { 
+    color: $navbar-text-color;
+  }
+  
+    // dropdown (hamburger) icon darken: since its an SVG image, need to use filter
+  .navbar-toggler-icon {
+    filter: brightness(0);
+  }
+  
+  // toggle dark-light mode icon (image)
+  .quarto-navigation-tool .bi::before {
+    filter: brightness(0) !important;
+  }
+  
+  // search icon on right side of page
+  .aa-SubmitIcon {
+    fill: $navbar-icon-color;
+  }
+  
+    // different links in navbar (classes, projects, etc)
+  .nav-link {
+    color: $navbar-text-color !important;
+    &:hover {
+      color: darken($navbar-text-hover-color,10%) !important;
+      background-color: lighten($theme-orange, 15%) !important;
+      border-radius: 4px; /* slight curve to look like buttons */
+    }
+  }
+}

@@ -4,39 +4,116 @@
 // Color Palette
 $theme-black: #181818;
 $theme-gray: #ccc;
-$theme-blue: #75AADB;
+$theme-blue: #31BAE9;
 $theme-green: #00bc8c;
-$theme-purple: #8e44ad;
+$theme-purple: #5e44aa;
 $theme-orange: #f39c12;
 $theme-red: #FF0000;
+$theme-white: #ffffff;
 
 /* Document Colors */
 $bg-color: $theme-black;
 $body-color: $theme-gray;
 $link-color: $theme-blue;
 
+/* Nav Bar Colors */
+$navbar-color: linear-gradient(to right, darken($theme-purple, 18%), $theme-purple);
+$navbar-text-color: $theme-white;
+$navbar-text-hover-color: $theme-blue;
+$navbar-icon-color: $theme-white;
+$navbar-border-color: $theme-purple;
+$navbar-button-active-color: $theme-purple;
+
+/* Side Bar Colors */
+$sidebar-bg: $bg-color;
+
+
 /* Fonts */ 
 // website to help select fonts: https://fonts.google.com/
 // here we stick with the cosmo default (looks nice)
 
-// header font: normal text font, code font and no more
-
-// Headers
-
-// Code blocks
-$code-block-bg-alpha: -.9;
-$code-block-border-left: #31BAE9;
-$code-block-border-left-style: solid;
-$code-block-border-left-size: 3px;
-$code-block-padding-left: 0.6em;
-$code-block-bg-padding: 0.4em;
 
 /*-- scss:rules --*/
 
-h1 {
-  color: $theme-red;
+// Global doc settings
+body{
+  background-color: $bg-color;
 }
 
+// Headers
+h1 {
+  color: $theme-white;
+}
+
+h2 {
+  color: $theme-white;
+}
+
+h3 {
+  color: $theme-white;
+}
+
+
+
+// Breadcrumb (pathway)
+.breadcrumb {
+  --bs-breadcrumb-bg: $bg-color;
+}
+
+// Nav Bar
+.navbar{
+  background: $navbar-color !important;
+  --bs-navbar-padding-x: 10px;
+  --bs-navbar-padding-y: 5px;
+  border-bottom: 1px solid $navbar-border-color;
+  
+  // navbar brand title "Michael Fehl"
+  .navbar-brand { 
+    color: $navbar-text-color;
+    &:hover {
+      color: $navbar-text-hover-color;
+    }
+  }
+
+  // all other links in navbar
+  .nav-link {
+    color: $theme-white !important;
+    &:hover {
+      color: $navbar-text-hover-color !important;
+      background-color: #1e294a !important;
+      border-radius: 4px; /* slight curve to look like buttons */
+    }
+  }
+  
+  // keep glow on tab in navbar (Active/Selected State)
+  .nav-link.active {
+    color: $navbar-text-color !important;      
+    background-color: $navbar-button-active-color !important; 
+    border-radius: 4px; 
+  }
+  
+  // hamburger (menu) dropdown icon (mobile, small windows)
+  .navbar-toggler-icon {
+    filter: brightness(255);
+  }
+  
+  // toggle dark-light mode icon (image)
+  .quarto-navigation-tool .bi::before {
+    filter: brightness(255) !important;
+  }
+  
+  // search icon on right side of page
+  .aa-SubmitIcon {
+    fill: $navbar-icon-color;
+  }
+  
+  
+}
+
+// side bar (left)
+.quarto-sidebar {
+  background-color: $sidebar-bg !important;
+}
 
 
 

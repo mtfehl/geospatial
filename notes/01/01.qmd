@@ -1,9 +1,13 @@
 ---
-title: "Class Session 01"
+title: "Class 01: Intro to Vector Data & sf Library"
+description: " "
 author: "Michael Fehl"
-description: "info about the class 1 materials"
-date: 2025-12-19
-output: html
+date: 2025-01-15
+class-notes: true
+format: 
+  html:
+    embed-resources: true
+image: "/images/projections.png"
     
 execute:
   eval: true
@@ -58,7 +62,7 @@ Comprehensive list of spatial data sources:
 |:-----------------------------------|:-----------------------------------|
 | **General & Administrative** | • [Natural Earth](https://www.naturalearthdata.com/downloads/) — Immense GIS database <br> • [CIESIN](https://dataverse.harvard.edu/dataverse/ciesin) — Large GIS database <br> • [DIVA](https://diva-gis.org/data.html) — Country-level data <br> • [GADM](https://gadm.org/data.html) — Administrative boundaries (0-4) <br> • [Geographic names](https://www.geonames.org/) — Locality geocoding <br> • [Long-lat](https://opencagedata.com) — API geocoding |
 | **Satellite & Imagery** | • [USGS](https://earthexplorer.usgs.gov/) — Satellite imagery <br> • [Modis](https://modis.gsfc.nasa.gov/) — Satellite imagery <br> • [NOAA VIIRS](https://payneinstitute.mines.edu/eog/nighttime-lights/) — Nighttime lights |
-| **Physical & Environment** | • [SRTM](https://srtm.csi.cgiar.org/) — Elevation <br> • [SAGE](https://sage.nelson.wisc.edu/data-and-models/datasets/) — Land cover <br> • [GFC](https://earthenginepartners.appspot.com/science-2013-global-forest) — Forest change <br> • [gROADS](https://search.earthdata.nasa.gov/search/granules?p=C3550192909-ESDIS) — Road networks <br> • [Mineral Resources](https://mrdata.usgs.gov/general/map.html) — Mineral locations |
+| **Physical & Environment** | • [SRTM](https://srtm.csi.cgiar.org/) — Elevation <br> • [SAGE](https://sage.nelson.wisc.edu/data-and-models/datasets/) — Land cover <br> • [GFC](https://earthenginepartners.appspot.com/science-2013-global-forest) — Forest change <br> • [gROADS](https://search.earthdata.nasa.gov/search/granules?p=C3550192909-ESDIS) — Road networks <br> • [Mineral Resources](https://mrdata.usgs.gov/general/map.html) — Mineral locations | [OSM](https://download.geofabrik.de/) — OpenStreetMap |
 | **Climate & Water** | • [AQUASTAT](https://www.fao.org/aquastat/en/) — Water-related data <br> • [PS Lab](https://psl.noaa.gov/data/gridded/) — Temp/Precipitation <br> • [SPEI](https://spei.csic.es/) — Drought index |
 | **Agri-Economics** | • [FAO-GAEZ](https://gaez.fao.org/) — Farm/Land data <br> • [Harvest Choice](https://www.ifpri.org/program/harvestchoice) — Farm/Land data <br> • [mapSPAM](https://www.spatialproduction.com/) — Farm/Land data |
 | **Geocoded Surveys** | • [LSMS](https://www.worldbank.org/en/programs/lsms) — Geocoded surveys <br> • [DHS surveys](https://dhsprogram.com/) — Geocoded surveys |
@@ -195,7 +199,7 @@ sf_mockdata <- st_sf(mock_data, geometry = geom)
 
 # plot our shapes!
 ggplot() +
-  geom_sf(data=sf_mockdata) +
+  geom_sf(data=sf_mockdata, fill = "lavender") +
   theme_minimal()
 
 ```
@@ -232,12 +236,30 @@ df.cities <- data.frame(
   longitude = c(11.3,-0.1,-3.7,2.3),
   latitude = c(44.4,51.5, 40.4,48.8)
 )
-
-sf.cities <- st_as_sf(df.cities,coords = c('longitude', 'latitude'))
-sf.cities # missing CRS!
+# Declare the data frame as an sf object, & declare our 'coords' col as the geometry
+sf.cities <- st_as_sf(df.cities,
+                      coords = c('longitude', 'latitude'))
+sf.cities # Missing CRS!
 ```
 
-Notice the output for CRS: `NA` -- it is important to specify and/or standardize
+Notice the output for CRS: `NA` -- it is important to specify and/or standardize!
+
+```{r long-lat yes crs}
+# Correct version
+sf.cities <- st_as_sf(
+  df.cities,
+  coords = c('longitude', 'latitude'),
+  crs = 'EPSG:4326'
+  )
+
+sf.cities
+```
+
+* N
+
+### Columns
+
+To store our geometry objects as a column in our dataframe, we use the command ``
 
 ## **Example 2**: Airports
 

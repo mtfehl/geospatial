@@ -1,11 +1,18 @@
-# ==== RStudio temporary files ====
+# RStudio & R internals
 .Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
 
-# ==== Quarto intermediate / cache files ====
+# Quarto internals
 .quarto/
-
-/.quarto/
+_freeze/
+# This catches all Quarto cache folders like 01ps_cache/
+*_cache/
 **/*.quarto_ipynb
+
+# Spatial Data 
+**/*.shp/
+**/*.dbf/
+**/*.prj/
+**/*.shx/

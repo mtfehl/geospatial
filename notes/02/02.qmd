@@ -1,14 +1,14 @@
 ---
-title: "Project: Example"
+title: "Class 02: Spatial Data Manipulation & Transformations"
 author: "Michael Fehl"
 description: " "
+date: 2026-01-21
+class-notes: true
 format:
   html:
     embed-resources: true
-date: 12-12-1999
-project: true
 image: "/images/placeholder.png"
-
+    
 execute:
   eval: true
   echo: true    
@@ -17,3 +17,7 @@ execute:
   cache: true    
 ---
 
+```{r chunk1}
+
+
+```
