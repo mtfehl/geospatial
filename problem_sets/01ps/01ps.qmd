@@ -58,8 +58,7 @@ ggplot() +
 [Data Source](https://diva-gis.org/data.html) 
 
 ```{r data}
-rm(list=ls())
-roads <- st_read("VNM_roads/VNM_roads.shp")
+roads <- st_read("VNM_rds/VNM_roads.shp")
 ```
 
 Note that the DIVA data matches our Vietnam map CRS, both using WGS 84. Hence, we do not need to worry about homogenizing our projection types.
