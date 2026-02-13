@@ -11,7 +11,7 @@ site_libs/
 # Quarto cache folders
 *_cache/
 **/*.quarto_ipynb
-/figure-pdf/
+figure-pdf/
 
 # Spatial Data
 Data/
