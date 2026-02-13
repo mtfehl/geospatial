@@ -33,6 +33,13 @@ $sidebar-bg: $bg-color;
 /* Grid Box Items */
 $grid-item-glow: $theme-dark-purple;
 
+/* Code colors */
+$code-block-bg: lighten($bg-color, 10%);
+$code-block-text-color: $theme-white;
+$code-block-border-color: darken($theme-gray, 30%);
+$code-bg: $code-block-bg;
+$code-color: $theme-purple;
+
 
 /* Fonts */ 
 // website to help select fonts: https://fonts.google.com/
@@ -47,23 +54,13 @@ body{
 }
 
 // Headers
-h1 {
+h1, h2, h3, h4, h5, h6{
   color: $theme-white;
 }
-
-h2 {
-  color: $theme-white;
-}
-
-h3 {
-  color: $theme-white;
-}
-
-
 
 // Breadcrumb (pathway)
 .breadcrumb {
-  --bs-breadcrumb-bg: $bg-color;
+  --bs-breadcrumb-bg: $bg-color !important;
 }
 
 // Nav Bar
@@ -78,6 +75,7 @@ h3 {
     color: $navbar-text-color;
     &:hover {
       color: $navbar-text-hover-color;
+      text-decoration: none !important;
     }
   }
 
@@ -113,6 +111,18 @@ h3 {
     fill: $navbar-icon-color;
   }
   
+  // dropdown menu styling
+  .dropdown-menu {
+    background: $navbar-color !important;
+    border: 1px solid $navbar-border-color !important;
+    .dropdown-item {
+      color: $navbar-text-color !important;
+      &:hover {
+        background: $theme-space-black !important;
+        color: $navbar-text-hover-color !important;
+      }
+    }
+  }
   
 }
 
@@ -133,29 +143,97 @@ h3 {
     }
 }
 
+// code blocks
+pre {
+  background-color: lighten($bg-color, 10%) !important;
+  color: $body-color; 
+  border: 1px solid $code-block-border-color;
+  border-radius: 5px;
+  padding: 10px;
+}
 
+// code in text (not being run)
+code:not(pre > code) {
+  background-color: $bg-color !important;
+  color: $code-color !important;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
 
+// code outputs
+pre code {
+  background-color: lighten($bg-color, 10%) !important;
+  padding: 0;
+}
 
+// source code colors
+// functions (fu)
+code span.fu {
+  color: $theme-blue !important;  
+}
 
+// strings (st)
+code span.st {
+  color: #50fa7b !important; 
+}
 
+// numbers (.fl = float, .dv = decimal)
+code span.fl, code span.dv {
+  color: #f1fa8c !important;
+}
 
+// attributes/arguments (at)
+code span.at {
+  color: #ffb86c !important; 
+}
 
+// base text / operators (op)
+code span.op, code {
+  color: $theme-white !important; 
+}
 
+// comments (co)
+code span.co {
+  color: $theme-purple !important;
+  font-style: italic;
+}
 
+// arrows (ot)
+code span.ot {
+  color: $theme-red !important; 
+}
 
+// transition animations
+@view-transition {
+  navigation: auto;
+}
 
+/*  make the new page "slide up" slightly as it fades in. */
+::view-transition-old(root) {
+  animation: 0.3s ease-in both fade-out;
+}
 
+::view-transition-new(root) {
+  animation: 0.3s ease-out both fade-in-slide;
+}
 
+/* keyframes for the custom animations */
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 
+@keyframes fade-in-slide {
+  from { 
+    opacity: 0; 
+    transform: translateX(20px); /* subtle slide up effect */
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
 
-
-
-
-
-
-
-
-
-
-
-
+body {
+  animation: fade-in-slide 0.75s ease-out;
+}

@@ -17,11 +17,32 @@ $body-color: $theme-black;
 $link-color: $theme-purple;
 
 // Nav Bar colors
-$navbar-color: linear-gradient(to right, darken($theme-orange, 10%), darken($theme-orange, 2%));
+$navbar-color: linear-gradient(to right, darken($theme-red, 30%), darken($theme-red, 2%));
 $navbar-text-color: $theme-black;
 $navbar-text-hover-color: $theme-purple;
 $navbar-icon-color: $theme-black;
+$navbar-border-color: $theme-black;
+$navbar-button-active-color: $theme-orange;
 
+// Side Bar Colors //
+$sidebar-bg: $bg-color;
+
+// Grid Box Items //
+$grid-item-glow: $theme-orange;
+
+// Code colors
+$code-block-bg: lighten($theme-gray, 5%);
+$code-block-text-color: $theme-black;
+$code-block-border-color: darken($theme-gray, 30%);
+$code-color: $theme-purple;
+
+// Mermaid Colors
+$mermaid-bg-color: transparent;
+$mermaid-edge-color: $theme-black;       // line color 
+$mermaid-node-bg-color: $bg-color; 
+$mermaid-node-fg-color: $theme-black;    // node text 
+$mermaid-label-fg-color: $theme-black;   //  label text 
+$mermaid-label-bg-color: $bg-color; 
 
 /*-- scss:rules --*/
 
@@ -31,19 +52,9 @@ body{
 }
 
 // Headers
-h1 {
+h1, h2, h3, h4, h5, h6 {
   color: $theme-black;
 }
-
-h2 {
-  color: $theme-black;
-}
-
-h3 {
-  color: $theme-black;
-}
-
-
 
 // Breadcrumb (pathway)
 .breadcrumb {
@@ -52,17 +63,18 @@ h3 {
 
 // Nav Bar
 .navbar{
-  background: $navbar-color;
-  --bs-navbar-color: $navbar-text-color;
-  --bs-navbar-hover-color: $navbar-text-hover-color;
-  --bs-navbar-brand-color: $navbar-text-color;
+  background: $navbar-color !important;
   --bs-navbar-padding-x: 10px;
   --bs-navbar-padding-y: 5px;
+  border-bottom: 1px solid $navbar-border-color;
   
-  
-    // website tite: "Michael Fehl"
+  // navbar brand title "Michael Fehl"
   .navbar-brand { 
     color: $navbar-text-color;
+    &:hover {
+      color: $navbar-text-hover-color;
+      text-decoration: none !important;
+    }
   }
   
     // dropdown (hamburger) icon darken: since its an SVG image, need to use filter
@@ -87,6 +99,155 @@ h3 {
       color: darken($navbar-text-hover-color,10%) !important;
       background-color: lighten($theme-orange, 15%) !important;
       border-radius: 4px; /* slight curve to look like buttons */
+      text-decoration: underline;
+    }
+  }
+  
+  // dropdown menu styling
+  .dropdown-menu {
+    background: $navbar-color !important;
+    border: 1px solid $navbar-border-color !important;
+    .dropdown-item {
+      color: $navbar-text-color !important;
+      &:hover {
+        background: lighten($theme-orange, 15%) !important;
+        color: $navbar-text-hover-color !important;
+      }
+    }
+  }
+  
+}
+
+// side bar (left)
+.quarto-sidebar {
+  background-color: $sidebar-bg !important;
+}
+
+// grid items
+.quarto-grid-item {
+    background-color: $theme-gray; 
+    border: 1px solid $theme-black;
+    border-radius: 8px;
+    transition: transform 0.2s;
+    &:hover{
+      transform: translateY(-5px); 
+      box-shadow: 0 0 15px $grid-item-glow; 
+    }
+}
+
+// flowchart boxes
+.node.nav-node {
+  cursor: pointer;
+  
+  rect, circle, polygon, path {
+    stroke: $theme-white !important;
+    stroke-width: 1px !important;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 0 10px $grid-item-glow);
+    
+    rect, circle, polygon, path {
+       stroke-width: 2px !important;
     }
   }
 }
+
+// code blocks
+pre {
+  background-color: darken($bg-color, 10%) !important;
+  color: $code-block-text-color !important;
+  border: 1px solid $code-block-border-color;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+// code in text (not being run)
+code:not(pre > code) {
+  background-color: $bg-color !important;
+  color: $code-color !important;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+// source code colors
+// text
+.sourceCode.r code {
+  color: $theme-purple !important;
+}
+
+// functions (fu)
+code span.fu {
+  color: #4078F2 !important;  
+}
+
+// strings (st)
+code span.st {
+  color: darken($theme-green, 10%) !important; 
+}
+
+// numbers (.fl = float, .dv = decimal)
+code span.fl, code span.dv {
+  color: #986801 !important;
+}
+
+// attributes/arguments (at)
+code span.at {
+  color: #B7121F !important; 
+}
+
+// base text / operators (op)
+code span.op, code {
+  color: $theme-black !important; 
+}
+
+// comments (co)
+code span.co {
+  color: $theme-purple !important;
+  font-style: italic;
+}
+
+// arrows (ot)
+code span.ot {
+  color: #E31C79 !important; 
+}
+
+
+// transition animations
+@view-transition {
+  navigation: auto;
+}
+
+/*  make the new page "slide up" slightly as it fades in. */
+::view-transition-old(root) {
+  animation: 0.3s ease-in both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 0.3s ease-out both fade-in-slide;
+}
+
+/* keyframes for the custom animations */
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fade-in-slide {
+  from { 
+    opacity: 0; 
+    transform: translateX(20px); /* subtle slide up effect */
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+body {
+  animation: fade-in-slide 0.75s ease-out;
+}
+
+

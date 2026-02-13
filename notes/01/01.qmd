@@ -255,11 +255,11 @@ sf.cities <- st_as_sf(
 sf.cities
 ```
 
-* N
+* Note: 
 
 ### Columns
 
-To store our geometry objects as a column in our dataframe, we use the command ``
+To store our geometry objects as a column in our dataframe, we use the command `st_sfc`
 
 ## **Example 2**: Airports
 

@@ -1,0 +1,159 @@
+---
+title: "Problem Set 3: "
+author: "Michael Fehl"
+description: "placeholder_text"
+date: 2026-01-22
+problem-set: true
+format: 
+  html:
+    embed-resources: true
+image: "/images/placeholder.png"
+
+execute:
+  eval: false
+  echo: true    
+  message: false
+  warning: false
+  cache: false   
+---
+
+```{r libraries, include=FALSE}
+# load in libraries
+
+```
+
+# Assignment 
+
+<u> **Goal** </u>: placeholder_text: 
+
+  - placeholder_text
+  
+[Paper]()
+
+## Reference
+
+Attached is the figure:
+
+![**Figure**:]()
+
+## Map_1
+
+### subsection
+
+placeholder_text
+
+```{r map}
+
+```
+
+### Data Source 1: placeholder_text
+
+[Data Source]() 
+
+```{r data1}
+#data_name <- read("path/data.type")
+```
+
+Note that... placeholder_text
+
+### subsection
+
+```{r chunk_name}
+# placeholder_text
+
+```
+
+placeholder_list:
+
+  - placeholder_text
+  - placeholder_text
+  - placeholder_text
+  
+placeholder_list:
+
+  - placeholder_text
+  - placeholder_text
+  - placeholder_text
+  
+placeholder_text
+
+### Operations_and_Plot
+
+``` {r intersection_plot}
+
+```
+
+## Map_2
+
+### Data Source 2: placeholder_text
+
+can be found [here](https://wiki.openstreetmap.org/wiki/Vietnam_Mapping_Guide).
+
+```{r data2}
+# placeholder_text
+# data_name <- read("data")
+```
+
+Note: placeholder_text
+
+### subsection
+
+```{r placeholder}
+# placeholder_text
+
+```
+
+As we can see, this dataset contains many more possible road types than our previous one. Thus, we will use this dataset to try and replicate the 2010 plot more closely.
+
+placeholder list:
+
+  - **placeholder_text**
+  - **placeholder_text**
+  - **placeholder_text**
+  - **placeholder_text**
+  - **placeholder_text**
+  
+placeholder table:
+  
+  | | |
+|:--- |:--- |
+| **name1** | "placeholder_text" |
+| **name2** | "placeholder_text" |
+| **name3** | "placeholder_text" |
+| **name4** | "placeholder_text" |
+| **name5** | "placeholder_text" |
+
+### Operations & Plot (1)
+
+```{r plot 1}
+
+```
+
+
+
+### Operations & Plot (2)
+
+``` {r plot 2}
+
+```
+
+
+## Results
+
+final_plots
+
+```{r final plots, out.width = "100%"}
+# Adust plots to match outline, remove gridlines, axis ticks, etc.
+
+```
+
+
+
+### Observations
+
+placeholder_text
+
+  - 
+  -
+  - 
+  

@@ -1,10 +1,16 @@
 ---
 title: "Geospatial Data Science & Economic Spatial Models"
+format:
+  html:
+    page-layout: full
 listing:
   - id: class-notes
     contents: 
       - notes/01
       - notes/02
+      - notes/03
+      - notes/04
+      #- notes/05
     include:
       class-notes: true
     type: grid
@@ -15,7 +21,8 @@ listing:
   - id: problem-sets
     contents: 
       - problem_sets/01ps
-      #- problem_sets/02ps
+      - problem_sets/02ps
+      - problem_sets/03ps
     include:
       problem-set: true
     type: grid
@@ -40,6 +47,54 @@ listing:
     filter-ui: false
     fields: [image, title, reading-time, description]
 ---
+
+::: {.container-fluid}
+
+```{r, echo=FALSE, eval=FALSE}
+#| column: screen
+
+library(leaflet)
+library(htmlwidgets)
+
+# Define cities with colors and URLs
+cities <- data.frame(
+  name = c("Patagonia", "Ciudad de México", "New York City", 
+           "Barcelona", "Bari"),
+  lat  = c(-50.9423, 19.4326, 40.7128, 41.3851, 41.1171),
+  lng  = c(-73.4068, -99.1332, -74.0060, 2.1734, 16.8719),
+  url  = c("notes/01/", "notes/02/", "notes/03/", "notes/04/", "notes/05/"),
+  color = c("#0B3C5D", "#328CC1", "#D9B310", "#1D2731", "#B82601")
+)
+
+# Predefined paths following approximate land routes
+paths <- list(
+  list(  # Patagonia -> CdM
+    c(-50.9423, -73.4068), c(-40,-70), c(-20,-70), c(10,-95), c(19.4326,-99.1332)
+  ),
+  list(  # CdM -> NYC
+    c(19.4326,-99.1332), c(30,-95), c(38,-90), c(40.7128,-74.0060)
+  ),
+  list(  # NYC -> BCN
+    c(40.7128,-74.0060), c(50,-30), c(41.3851,2.1734)
+  ),
+  list(  # BCN -> Bari
+    c(41.3851,2.1734), c(42,7), c(41.1171,16.8719)
+  )
+)
+
+leaflet(options = leafletOptions(
+  minZoom = 2,
+  maxZoom = 7,
+  scrollWheelZoom = FALSE,
+  zoomControl = TRUE
+)) 
+```
+
+
+
+
+
+:::
 
 ## Class Notes
 

@@ -1,0 +1,42 @@
+[33m038b983[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33m8d37a46[m HEAD@{1}: commit: Stop tracking large spatial data files
+[33mdbf50f4[m HEAD@{2}: commit: updated geospatial index.qmd, added code for future leaflet template on page; also added new ps, class notes, etc.
+[33m038b983[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{3}: commit: rendered output
+[33me98509e[m HEAD@{4}: commit: update data files
+[33md6e8ea4[m[33m ([m[1;32mtest[m[33m)[m HEAD@{5}: checkout: moving from test to main
+[33md6e8ea4[m[33m ([m[1;32mtest[m[33m)[m HEAD@{6}: reset: moving to main
+[33m8534fb3[m HEAD@{7}: reset: moving to HEAD
+[33m8534fb3[m HEAD@{8}: reset: moving to HEAD
+[33m8534fb3[m HEAD@{9}: commit: updated dark scss in geospatial project to try and match home page, add glow & hover effects on grid items
+[33mbccec6c[m[33m ([m[1;31morigin/test[m[33m)[m HEAD@{10}: checkout: moving from main to test
+[33md6e8ea4[m[33m ([m[1;32mtest[m[33m)[m HEAD@{11}: commit: updated dark scss in geospatial project to try and match home page, add glow & hover effects on grid items
+[33m292d6cb[m HEAD@{12}: commit: scss files, navbar update, deleted data files, updated gitignore, etc
+[33mc5f59c2[m HEAD@{13}: reset: moving to origin/main
+[33m3ff7c31[m HEAD@{14}: commit: added global _website.yml, updated theme-dark.scss and theme-light.scss, added problemset01, updated left navbar of classes
+[33m9df136d[m HEAD@{15}: reset: moving to HEAD~1
+[33m4bbe80e[m HEAD@{16}: commit: Remove giant data files, updated scss files, added global _website.yml, updated sidebar
+[33m9df136d[m HEAD@{17}: reset: moving to HEAD~1
+[33m024c818[m HEAD@{18}: commit: added scss files, created global _website.yml, added ps01, etc
+[33m9df136d[m HEAD@{19}: commit: added global _website.yml, updated theme-dark.scss and theme-light.scss, added problemset01, updated left navbar of classes
+[33m4b02168[m HEAD@{20}: commit: updated scss files for geospatial, edited page structure
+[33mc5f59c2[m HEAD@{21}: commit: updated page
+[33m0b9fa03[m HEAD@{22}: commit: message
+[33m458af71[m HEAD@{23}: commit: updated page
+[33m707e537[m HEAD@{24}: commit: updated tab
+[33mbccec6c[m[33m ([m[1;31morigin/test[m[33m)[m HEAD@{25}: checkout: moving from test to main
+[33mbccec6c[m[33m ([m[1;31morigin/test[m[33m)[m HEAD@{26}: merge main: Fast-forward
+[33mbe9941a[m HEAD@{27}: checkout: moving from main to test
+[33mbccec6c[m[33m ([m[1;31morigin/test[m[33m)[m HEAD@{28}: commit: added dark and light theme options to home page
+[33mbddf2bb[m HEAD@{29}: commit: fixed 'docs/' being in gitignore file
+[33mbe9941a[m HEAD@{30}: checkout: moving from test to main
+[33mbe9941a[m HEAD@{31}: checkout: moving from main to test
+[33mbe9941a[m HEAD@{32}: commit: bug fix
+[33m8b06a8d[m HEAD@{33}: commit: tried fixing website url
+[33m2b54809[m HEAD@{34}: commit: remove local reference
+[33m45b74eb[m HEAD@{35}: commit: attempt to fix website breaking
+[33md127e51[m HEAD@{36}: commit: fixed file path for website
+[33mf57f657[m HEAD@{37}: commit: removed python section, updated local paths, fixed cache issues, changed formatting a bit
+[33m5d3a521[m HEAD@{38}: commit: created gitignore file
+[33mf1abd9e[m HEAD@{39}: pull: Fast-forward
+[33m193c6be[m HEAD@{40}: Branch: renamed refs/heads/master to refs/heads/main
+[33m193c6be[m HEAD@{42}: commit (initial): initialize repo connection
