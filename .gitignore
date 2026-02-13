@@ -12,8 +12,12 @@ _freeze/
 **/*.quarto_ipynb
 
 # Spatial Data
-**/*.shp/
-**/*.dbf/
-**/*.prj/
-**/*.shx/
+*.shp
+*.dbf
+*.prj
+*.shx
+*.sbn
+*.sbx
+*.cpg
+*.xml
 /.quarto/
