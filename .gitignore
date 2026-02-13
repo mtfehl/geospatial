@@ -14,8 +14,8 @@ _freeze/
 /figure-pdf/
 
 # Spatial Data
-/Data/
-/data/
+Data/
+data/
 *.shp
 *.dbf
 *.prj
@@ -26,4 +26,7 @@ _freeze/
 *.xml
 *.png
 *.jpg
+*.tif
+*.tfw
+*.nc
 /.quarto/
