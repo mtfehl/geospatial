@@ -11,8 +11,11 @@ _freeze/
 # Quarto cache folders
 *_cache/
 **/*.quarto_ipynb
+/figure-pdf/
 
 # Spatial Data
+/Data/
+/data/
 *.shp
 *.dbf
 *.prj
