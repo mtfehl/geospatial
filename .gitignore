@@ -23,9 +23,15 @@ data/
 *.sbx
 *.cpg
 *.xml
-*.png
-*.jpg
 *.tif
 *.tfw
 *.nc
+
+*.png
+*.jpg
+!images/
+!docs/images/
+
 /.quarto/
+
+
