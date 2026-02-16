@@ -26,12 +26,6 @@ data/
 *.tif
 *.tfw
 *.nc
-
-*.png
-*.jpg
-!images/
-!docs/images/
-
 /.quarto/
 
 
