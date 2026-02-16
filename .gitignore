@@ -6,7 +6,6 @@
 
 # Quarto internals
 .quarto/
-_freeze/
 site_libs/
 # Quarto cache folders
 *_cache/

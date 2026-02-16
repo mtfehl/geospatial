@@ -1,0 +1,15 @@
+{
+  "hash": "8d3c516a9e1799669c6f7d7a5da306d8",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Geospatial Data Science & Economic Spatial Models\"\nformat:\n  html:\n    page-layout: full\nlisting:\n  - id: class-notes\n    contents: \n      - notes/01\n      - notes/02\n      - notes/03\n      - notes/04\n      #- notes/05\n    include:\n      class-notes: true\n    type: grid\n    grid-columns: 3\n    categories: false\n    fields: [image, title, reading-time, description]\n    \n  - id: problem-sets\n    contents: \n      - problem_sets/01ps\n      - problem_sets/02ps\n      - problem_sets/03ps\n    include:\n      problem-set: true\n    type: grid\n    grid-columns: 3\n    sort: \"date desc\"\n    categories: false\n    sort-ui: false\n    filter-ui: false\n    fields: [image, title, reading-time, description]\n    \n  - id: projects\n    contents: \n      - projects/project01\n      #- projects/project02\n    include:\n      project: true\n    type: grid\n    grid-columns: 3\n    sort: \"date desc\"\n    categories: false\n    sort-ui: false\n    filter-ui: false\n    fields: [image, title, reading-time, description]\n---\n\n::: {.container-fluid}\n\n\n::: {.cell .column-screen}\n\n:::\n\n\n\n\n\n\n:::\n\n## Class Notes\n\n::: {#class-notes}\n\n:::\n\n## Problem Sets\n\n::: {#problem-sets}\n\n:::\n\n\n## Projects\n\n::: {#projects}\n\n:::",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

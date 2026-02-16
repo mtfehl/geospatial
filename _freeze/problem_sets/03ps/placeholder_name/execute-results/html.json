@@ -1,0 +1,15 @@
+{
+  "hash": "961c5bede42431d4627f556b171b3bef",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Problem Set 3: \"\nauthor: \"Michael Fehl\"\ndescription: \"placeholder_text\"\ndate: 2026-01-22\nproblem-set: true\nformat: \n  html:\n    embed-resources: true\nimage: \"/images/placeholder.png\"\n\nexecute:\n  eval: false\n  echo: true    \n  message: false\n  warning: false\n  cache: false   \n---\n\n\n\n# Assignment \n\n<u> **Goal** </u>: placeholder_text: \n\n  - placeholder_text\n  \n[Paper]()\n\n## Reference\n\nAttached is the figure:\n\n![**Figure**:]()\n\n## Map_1\n\n### subsection\n\nplaceholder_text\n\n\n::: {.cell}\n\n:::\n\n\n### Data Source 1: placeholder_text\n\n[Data Source]() \n\n\n::: {.cell}\n\n```{.r .cell-code}\n#data_name <- read(\"path/data.type\")\n```\n:::\n\n\nNote that... placeholder_text\n\n### subsection\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# placeholder_text\n```\n:::\n\n\nplaceholder_list:\n\n  - placeholder_text\n  - placeholder_text\n  - placeholder_text\n  \nplaceholder_list:\n\n  - placeholder_text\n  - placeholder_text\n  - placeholder_text\n  \nplaceholder_text\n\n### Operations_and_Plot\n\n\n::: {.cell}\n\n:::\n\n\n## Map_2\n\n### Data Source 2: placeholder_text\n\ncan be found [here](https://wiki.openstreetmap.org/wiki/Vietnam_Mapping_Guide).\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# placeholder_text\n# data_name <- read(\"data\")\n```\n:::\n\n\nNote: placeholder_text\n\n### subsection\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# placeholder_text\n```\n:::\n\n\nAs we can see, this dataset contains many more possible road types than our previous one. Thus, we will use this dataset to try and replicate the 2010 plot more closely.\n\nplaceholder list:\n\n  - **placeholder_text**\n  - **placeholder_text**\n  - **placeholder_text**\n  - **placeholder_text**\n  - **placeholder_text**\n  \nplaceholder table:\n  \n  | | |\n|:--- |:--- |\n| **name1** | \"placeholder_text\" |\n| **name2** | \"placeholder_text\" |\n| **name3** | \"placeholder_text\" |\n| **name4** | \"placeholder_text\" |\n| **name5** | \"placeholder_text\" |\n\n### Operations & Plot (1)\n\n\n::: {.cell}\n\n:::\n\n\n\n\n### Operations & Plot (2)\n\n\n::: {.cell}\n\n:::\n\n\n\n## Results\n\nfinal_plots\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# Adust plots to match outline, remove gridlines, axis ticks, etc.\n```\n:::\n\n\n\n\n### Observations\n\nplaceholder_text\n\n  - \n  -\n  - \n  ",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

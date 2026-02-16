@@ -1,0 +1,15 @@
+{
+  "hash": "492ca366d4922e6e12cb50f360bac6cd",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Class 02: Spatial Data Manipulation & Transformations\"\nauthor: \"Michael Fehl\"\ndescription: \" \"\ndate: 2026-01-21\nclass-notes: true\nformat:\n  html:\n    embed-resources: true\nimage: \"/images/placeholder.png\"\n    \nexecute:\n  eval: true\n  echo: true    \n  message: false\n  warning: false\n  cache: true    \n---\n\n\n::: {.cell}\n\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

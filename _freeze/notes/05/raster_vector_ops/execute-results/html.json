@@ -1,0 +1,15 @@
+{
+  "hash": "5a1a611f8ec6090033d9b1f6d9eb594a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Class 05: Raster-Vector Operations\"\ndescription: \" \"\nauthor: \"Michael Fehl\"\ndate: 2025-02-11\nclass-notes: true\nformat: \n  html:\n    embed-resources: true\n    code-fold: false\nimage: \"/images/placeholder.png\"\n    \nexecute:\n  eval: false\n  echo: true    \n  message: false\n  warning: false\n  cache: false \n---\n\n# Intro\n\n[insert text]\n\n\n::: {.cell}\n\n```{.r .cell-code}\nrm(list=ls())\nlibrary(terra)\nlibrary(exactextractr)\nlibrary(gdistance)\nlibrary(sf)\nlibrary(spData)\nlibrary(tidyverse) # NOTE: Conflict with terra: tidyr::extract() masks terra::extract()\n```\n:::\n\n\n# Vector-Raster Operations\n\n## Loading\n\nUsing the `terra::rast()` function, we can load raster data from downloaded sources. Note that the most common format is .tif\n\n\n::: {.cell}\n\n```{.r .cell-code}\nr.nlights <- rast('../../NL')\n\ninMemory(r.nightlights) #note: not loaded in memory!\n\nplot(r.nlights)\n```\n:::\n\n\nMultilayer format: NETCDF .nc\n\nwe will blow up the graph if we do not explicity select a sublayer\n\n\n::: {.cell}\n\n```{.r .cell-code}\nr.spei <- rast()\n\nplot(r.spei[[1]]) # note the [[x]]\nplot(r.spei[[10]])\nplot(r.spei[[15]])\nplot(r.spei[[21]])\n```\n:::\n\n\n## Extraction\n\nExtracting the raster value from each cell, where the vertices of a vector object is overlaying the cells. Here, we are using the `exactextractr::exact_extract()` function, as it is computationally efficient; if we want more precise raster values (at the cost of more computational power), we would use `exactextractr::extract()`\n\n**Note**: requires standardization from sf vector into `SpatVec()`\n\nUnder the hood, it must extract vector type of data into spatvec() type of data\nIt transforms sf into spatvec() to turn into more coordinates\n\n## Rasterization\n\nRasterizing sf vector data: transform a simple feature object into a raster object. Works by assigning non-missing values for the intersection raster grid cells (pixels); otherwise, leaves missing.\n\n**Very computationally demanding**; only has one realist (but powerful) use case: distances over *friction surfaces*\n\nIntuition: distances between two ports over the seine river;  \n\n  * `rasterize()`, \n  * `transition()`, \n  * `shortestpath()`\n\n\n::: {.cell}\n\n:::\n\n\n\n\n\n\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
