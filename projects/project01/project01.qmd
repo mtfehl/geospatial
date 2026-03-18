@@ -18,9 +18,22 @@ execute:
 ---
 
 ```{r library}
-library(sf)
-library(tidyverse)
-library(spData)
+#| code-fold: true
+#| code-summary: "libraries"
+
+# load in libraries
+rm(list=ls())
+library(terra)         # raster operations
+library(exactextractr) # exact_extract() for distances
+library(gdistance)     # fast distance() formula for geo data
+library(sf)            # vector operations
+library(spData)        # geo data
+library(tidyverse)     # NOTE: Conflict -- tidyr::extract() masks terra::extract()
+library(glue)          # printf() syntax
+library(spDataLarge)   # geo data
+library(ggrepel)       # add labels to ggplot
+library(tidyterra)     # visualize geospatial using tidy syntax
+library(patchwork)     # patch tg ggplot objects
 ```
 
 

@@ -11,6 +11,7 @@ site_libs/
 *_cache/
 **/*.quarto_ipynb
 figure-pdf/
+*.rmarkdown
 
 # Spatial Data
 Data/
