@@ -1,0 +1,233 @@
+---
+title: "Class 07: Spatial Modeling"
+description: " "
+author: "Michael Fehl"
+date: 2026-03-04
+class-notes: true
+format: 
+  html:
+    embed-resources: true
+    code-fold: false
+image: "/images/placeholder.png"
+    
+execute:
+  eval: false
+  echo: true    
+  message: false
+  warning: false
+  cache: false # raster files 
+  error: true
+---
+
+
+# Intro
+
+Economic Theory + Geographic Features = Spatial Distribution of Economic Activity
+
+Can investigate treatment effects of policy, etc
+
+# placeholder
+
+Two examples: 
+
+Railroads and American Economic Growth (Donaldson & Hornbeck, 2016)
+
+Research question: What were welfare gains from expansion of railroads in 19th century USA?
+
+Buffer around key cities in USA, use a measure (such as railroad density) around such a buffer before & after a policy; those treated (affected by policy) assigned treatment group, those not as the counterfactual. Simple DiD.
+
+Issue -- other cities are affected indirectly by policy treatment; spatial spillover. Thus, we do not just want density, but also to measure accessibility to markets and how it changes after policy intervention.
+
+** use density as a control?
+
+Real economic activity: (nomial income $v_i$ * population $L_i$) = (aggregate GDP -- we call this economic activity in location $i$: $X_i$) = exports: $\sum_{n \in S} \pi_{ni} \cdot v_n L_n$
+
+each region spend its share of income on production (pi: export shares** important)
+
+level of productivity $A_i$ * (factor prices $w_i$ * cost of trade $d_{ni}$) 
+divided by it for all cities ($\sum_{s \in S} A_s (w_s d_{ns})$), where $i \in S$
+
+I.e. $\pi_{ni} = \frac{A_s (w_s d_{ns})}{\sum_{s \in S} A_s (w_s d_{ns})}$ is defined as the share of $i$'s production exported to $n$, where $\pi_{ns} \in [0,1]$
+
+Market access measure: can be approximated as a weighted average of a size of all markets in the economy (referred to as the population $L_n$), weighted by the bilateral trade cost. (scaled by trade elasticity $\theta$); i.e., 
+
+$$MA_S \approx \sum_{}$$
+
+
+## Applied
+
+```{r libraries, output = 'none'}
+# load in libraries
+rm(list=ls())
+library(terra)         # raster operations
+library(exactextractr) # exact_extract() for distances
+library(gdistance)     # fast distance() formula for geo data
+library(sf)            # vector operations
+library(spData)        # geo data
+library(tidyverse)     # NOTE: Conflict -- tidyr::extract() masks terra::extract()
+library(glue)          # printf() syntax
+library(spDataLarge)   # geo data
+library(ggrepel)       # add labels to ggplot
+library(tidyterra)     # visualize geospatial using tidy syntax
+library(patchwork)     # patch tg ggplot objects
+```
+
+```{r data, output = 'none'}
+# load in data
+load("C:/Users/T14/7Programming/R/class/geospatial/notes/07/data_for_class09.rdata")
+```
+
+
+```{r}
+# initial visualization of grid
+ggplot() +
+  geom_sf(data=grid) +
+  geom_sf(data=routes) +
+  theme_void()
+```
+
+```{r}
+## extract long/lat from each grid
+df <- data.frame(latitude = grid$latitude, 
+                 longitude = grid$longitude)
+
+# convert to simple feature multipoint object
+sf.cities <- st_as_sf(df,
+                      coords = c('longitude', 'latitude'),
+                      crs = 'EPSG:4326')
+# updated plot
+ggplot() +
+  geom_sf(data=grid) +
+  geom_sf(data=routes) +
+  geom_sf(data=sf.cities) +
+  theme_void()
+```
+
+```{r}
+# calculate paths between cities using routes
+r.template <- rast()
+values(r.template) <- runif(1:ncell(r.template))
+
+# crop to spain bounds
+r.template <- terra::crop(r.template, grid)
+
+# sanity check
+plot(r.template)
+```
+
+```{r}
+res(r.template) <- 0.01                # set res to much finer for more precision
+values(r.template) <- runif(1:ncell(r.template))
+
+# sanity check
+plot(r.template)
+plot(st_geometry(grid), add=T, col=adjustcolor("gray", alpha.f=0.35))
+```
+
+
+```{r}
+r.routes <- terra::rasterize(x=routes,         # vector object
+                            y=r.template,  # template raster
+                            field = 1)     # optional: set touching vals = 1
+
+# cells on the network = 1, off-network = NA
+plot(r.routes, main = "Rasterized Gridcell Map")
+plot(st_geometry(grid), add = TRUE) 
+```
+
+```{r}
+# convert NA values to 0 to compute distances later on
+r.routes_filled <- r.routes
+r.routes_filled[is.na(r.routes_filled)] <- 0 # replace NA values with 0
+
+# convert: SpatRaster -> RasterLayer
+r.routes_filled <- raster::raster(r.routes_filled)
+
+# transition matrix
+trans <- gdistance::transition(
+  x = r.routes_filled,             # must be a gdistance::RasterLayer object
+  transitionFunction = mean,   
+  directions = 8                  # max 8-gridcells surrounding any given gridcell
+)
+```
+
+
+```{r}
+trans_corrected <- geoCorrection(trans, type = "c")
+```
+
+
+```{r}
+city_geoms <- sf.cities                               # extract city geoms
+num_cities <- dim(sf.cities)[1]                       # num of cities
+city_paths <- list()                                  # init empty list to store paths
+city_pairs <- matrix(0, 
+                     nrow = num_cities,
+                     ncol = num_cities)
+
+for (i in 1:(num_cities - 1)) {
+  for (j in (i + 1):num_cities) {
+    
+    origin_sp <- as(city_geoms[i, ], "Spatial")
+    goal_sp   <- as(city_geoms[j, ], "Spatial")
+    
+    path <- gdistance::shortestPath(
+      x      = trans_corrected,
+      origin = origin_sp,
+      goal   = goal_sp,
+      output = "SpatialLines"
+    )
+    
+    dist <- SpatialLinesLengths(path, longlat = TRUE)
+    city_pairs[i, j] <- dist
+    city_pairs[j, i] <- dist  # symmetric
+    
+  }
+}
+
+# table results
+city_pairs
+```
+
+```{r}
+# compute market access: sum of: { pop * e^(distance(i,j) * 0.001) } for every city
+MA_list = c() # init empty list of MA values for each city 1-72
+pops <- grid$pop.2000
+theta = 6.5
+
+for (i in 1:num_cities){
+  scaled_dists <- city_pairs[i, ] * 0.001
+  MA_list[i] <- sum(pops * exp(-theta * scaled_dists))
+}
+
+# assign values back into grid vector object
+grid$MA <- MA_list
+grid # sanity check
+```
+
+```{r}
+# rescale to [0,1] for plotting purposes
+grid$MA_scaled <- scales::rescale(grid$MA, to = c(0, 1))
+# plot MA by gridcell
+ggplot()+
+  geom_sf(data=grid, aes(fill=MA_scaled))+
+  scale_fill_viridis_c(
+    name   = "Market Access",
+    option = "H",        # try "magma", "inferno", "cividis", "turbo"
+    limits = c(0, 1))+
+  theme_void() +
+  theme(
+    legend.position   = "right",
+    legend.direction  = "vertical",
+    legend.title      = element_text(size = 10, face = "bold"),
+    legend.text       = element_text(size = 8),
+    legend.key.width  = unit(0.3, "cm"),   # skinny bar
+    legend.key.height = unit(1.5, "cm")
+    )
+```
+
+
+```{r}
+# retrieve road density within gridcells
+
+```

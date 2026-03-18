@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Michael Fehl">
-<meta name="dcterms.date" content="2026-01-22">
-<meta name="description" content="placeholder_text">
+<meta name="dcterms.date" content="2026-02-16">
 
-<title>Problem Set 3: – Michael Fehl</title>
+<title>Class 06: Leaflet Widgets – Michael Fehl</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4122,7 +4121,7 @@ vertical-align: -.125em;
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Problem Set 3:</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Class 06: Leaflet Widgets</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -4515,27 +4514,18 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link active" data-scroll-target="#assignment">Assignment</a>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">1 Intro</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">2 Section</a>
   <ul>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
-  <li><a href="#map_1" id="toc-map_1" class="nav-link" data-scroll-target="#map_1">Map_1</a>
-  <ul class="collapse">
-  <li><a href="#subsection" id="toc-subsection" class="nav-link" data-scroll-target="#subsection">subsection</a></li>
-  <li><a href="#data-source-1-placeholder_text" id="toc-data-source-1-placeholder_text" class="nav-link" data-scroll-target="#data-source-1-placeholder_text">Data Source 1: placeholder_text</a></li>
-  <li><a href="#subsection-1" id="toc-subsection-1" class="nav-link" data-scroll-target="#subsection-1">subsection</a></li>
-  <li><a href="#operations_and_plot" id="toc-operations_and_plot" class="nav-link" data-scroll-target="#operations_and_plot">Operations_and_Plot</a></li>
+  <li><a href="#subsection" id="toc-subsection" class="nav-link" data-scroll-target="#subsection">2.1 Subsection</a></li>
+  <li><a href="#subsection-1" id="toc-subsection-1" class="nav-link" data-scroll-target="#subsection-1">2.2 Subsection</a></li>
+  <li><a href="#x-subsection" id="toc-x-subsection" class="nav-link" data-scroll-target="#x-subsection">2.x Subsection</a></li>
   </ul></li>
-  <li><a href="#map_2" id="toc-map_2" class="nav-link" data-scroll-target="#map_2">Map_2</a>
-  <ul class="collapse">
-  <li><a href="#data-source-2-placeholder_text" id="toc-data-source-2-placeholder_text" class="nav-link" data-scroll-target="#data-source-2-placeholder_text">Data Source 2: placeholder_text</a></li>
-  <li><a href="#subsection-2" id="toc-subsection-2" class="nav-link" data-scroll-target="#subsection-2">subsection</a></li>
-  <li><a href="#operations-plot-1" id="toc-operations-plot-1" class="nav-link" data-scroll-target="#operations-plot-1">Operations &amp; Plot (1)</a></li>
-  <li><a href="#operations-plot-2" id="toc-operations-plot-2" class="nav-link" data-scroll-target="#operations-plot-2">Operations &amp; Plot (2)</a></li>
-  </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
-  <ul class="collapse">
-  <li><a href="#observations" id="toc-observations" class="nav-link" data-scroll-target="#observations">Observations</a></li>
-  </ul></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">3 Section</a>
+  <ul>
+  <li><a href="#subsection-2" id="toc-subsection-2" class="nav-link" data-scroll-target="#subsection-2">3.1 Subsection</a></li>
+  <li><a href="#subsection-3" id="toc-subsection-3" class="nav-link" data-scroll-target="#subsection-3">3.2 Subsection</a></li>
+  <li><a href="#x-subsection-1" id="toc-x-subsection-1" class="nav-link" data-scroll-target="#x-subsection-1">3.x Subsection</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -4546,14 +4536,9 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Problem Set 3:</h1>
+<h1 class="title">Class 06: Leaflet Widgets</h1>
 </div>
 
-<div>
-  <div class="description">
-    placeholder_text
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -4568,7 +4553,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 22, 2026</p>
+      <p class="date">February 16, 2026</p>
     </div>
   </div>
   
@@ -4580,135 +4565,37 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="assignment" class="level1">
-<h1>Assignment</h1>
-<p><u> <strong>Goal</strong> </u>: placeholder_text:</p>
-<ul>
-<li>placeholder_text</li>
-</ul>
-<p><a href>Paper</a></p>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Attached is the figure:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img role="img" src=".png" class="img-fluid figure-img"></p>
-<figcaption><strong>Figure</strong>:</figcaption>
-</figure>
-</div>
-</section>
-<section id="map_1" class="level2">
-<h2 class="anchored" data-anchor-id="map_1">Map_1</h2>
-<section id="subsection" class="level3">
-<h3 class="anchored" data-anchor-id="subsection">subsection</h3>
-<p>placeholder_text</p>
-</section>
-<section id="data-source-1-placeholder_text" class="level3">
-<h3 class="anchored" data-anchor-id="data-source-1-placeholder_text">Data Source 1: placeholder_text</h3>
-<p><a href>Data Source</a></p>
+<section id="intro" class="level1">
+<h1>1 Intro</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data_name &lt;- read(&quot;path/data.type&quot;)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet) <span class="co"># interactive widgets </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Note that… placeholder_text</p>
+<p>Leaflet is an open-source JavaScript library for interactive maps</p>
 </section>
-<section id="subsection-1" class="level3">
-<h3 class="anchored" data-anchor-id="subsection-1">subsection</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># placeholder_text</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>placeholder_list:</p>
-<ul>
-<li>placeholder_text</li>
-<li>placeholder_text</li>
-<li>placeholder_text</li>
-</ul>
-<p>placeholder_list:</p>
-<ul>
-<li>placeholder_text</li>
-<li>placeholder_text</li>
-<li>placeholder_text</li>
-</ul>
-<p>placeholder_text</p>
+<section id="section" class="level1">
+<h1>2 Section</h1>
+<section id="subsection" class="level2">
+<h2 class="anchored" data-anchor-id="subsection">2.1 Subsection</h2>
 </section>
-<section id="operations_and_plot" class="level3">
-<h3 class="anchored" data-anchor-id="operations_and_plot">Operations_and_Plot</h3>
+<section id="subsection-1" class="level2">
+<h2 class="anchored" data-anchor-id="subsection-1">2.2 Subsection</h2>
+</section>
+<section id="x-subsection" class="level2">
+<h2 class="anchored" data-anchor-id="x-subsection">2.x Subsection</h2>
 </section>
 </section>
-<section id="map_2" class="level2">
-<h2 class="anchored" data-anchor-id="map_2">Map_2</h2>
-<section id="data-source-2-placeholder_text" class="level3">
-<h3 class="anchored" data-anchor-id="data-source-2-placeholder_text">Data Source 2: placeholder_text</h3>
-<p>can be found <a href="https://wiki.openstreetmap.org/wiki/Vietnam_Mapping_Guide">here</a>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># placeholder_text</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_name &lt;- read(&quot;data&quot;)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Note: placeholder_text</p>
+<section id="section-1" class="level1">
+<h1>3 Section</h1>
+<section id="subsection-2" class="level2">
+<h2 class="anchored" data-anchor-id="subsection-2">3.1 Subsection</h2>
 </section>
-<section id="subsection-2" class="level3">
-<h3 class="anchored" data-anchor-id="subsection-2">subsection</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># placeholder_text</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>As we can see, this dataset contains many more possible road types than our previous one. Thus, we will use this dataset to try and replicate the 2010 plot more closely.</p>
-<p>placeholder list:</p>
-<ul>
-<li><strong>placeholder_text</strong></li>
-<li><strong>placeholder_text</strong></li>
-<li><strong>placeholder_text</strong></li>
-<li><strong>placeholder_text</strong></li>
-<li><strong>placeholder_text</strong></li>
-</ul>
-<p>placeholder table:</p>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>name1</strong></td>
-<td style="text-align: left;">“placeholder_text”</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>name2</strong></td>
-<td style="text-align: left;">“placeholder_text”</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>name3</strong></td>
-<td style="text-align: left;">“placeholder_text”</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>name4</strong></td>
-<td style="text-align: left;">“placeholder_text”</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>name5</strong></td>
-<td style="text-align: left;">“placeholder_text”</td>
-</tr>
-</tbody>
-</table>
+<section id="subsection-3" class="level2">
+<h2 class="anchored" data-anchor-id="subsection-3">3.2 Subsection</h2>
 </section>
-<section id="operations-plot-1" class="level3">
-<h3 class="anchored" data-anchor-id="operations-plot-1">Operations &amp; Plot (1)</h3>
-</section>
-<section id="operations-plot-2" class="level3">
-<h3 class="anchored" data-anchor-id="operations-plot-2">Operations &amp; Plot (2)</h3>
-</section>
-</section>
-<section id="results" class="level2">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>final_plots</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adust plots to match outline, remove gridlines, axis ticks, etc.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<section id="observations" class="level3">
-<h3 class="anchored" data-anchor-id="observations">Observations</h3>
-<p>placeholder_text</p>
-<ul>
-<li></li>
-<li></li>
-<li></li>
-</ul>
+<section id="x-subsection-1" class="level2">
+<h2 class="anchored" data-anchor-id="x-subsection-1">3.x Subsection</h2>
 
 
-</section>
 </section>
 </section>
 

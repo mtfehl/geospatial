@@ -1,0 +1,15 @@
+{
+  "hash": "94f36db9cf502774ab9878e1c0e1eb32",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Class 06: Leaflet Widgets\"\ndescription: \" \"\nauthor: \"Michael Fehl\"\ndate: 2026-02-16\nclass-notes: true\nformat: \n  html:\n    embed-resources: true\n    code-fold: false\nimage: \"/images/placeholder.png\"\n    \nexecute:\n  eval: true\n  echo: true    \n  message: false\n  warning: false\n  cache: true    \n---\n\n# 1 Intro\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(leaflet) # interactive widgets \n```\n:::\n\n\nLeaflet is an open-source JavaScript library for interactive maps\n\n# 2 Section\n\n\n\n## 2.1 Subsection\n\n\n\n## 2.2 Subsection\n\n\n\n## 2.x Subsection\n\n\n\n# 3 Section\n\n\n\n## 3.1 Subsection\n\n\n\n## 3.2 Subsection\n\n\n\n## 3.x Subsection\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

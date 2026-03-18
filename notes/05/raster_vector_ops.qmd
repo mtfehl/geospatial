@@ -2,7 +2,7 @@
 title: "Class 05: Raster-Vector Operations"
 description: " "
 author: "Michael Fehl"
-date: 2025-02-11
+date: 2026-02-11
 class-notes: true
 format: 
   html:
@@ -15,75 +15,576 @@ execute:
   echo: true    
   message: false
   warning: false
-  cache: false 
+  cache: false # raster data 
+  error: true
 ---
 
 # Intro
 
-[insert text]
+Now that we've been introduced to the basics of raster data, it is important to learn some of the major operations we will use on them. Specifically, the interaction between vector and raster data will serve to create very detailed graphs and can perform some very powerful commands.
 
 ```{r libraries, message=FALSE, warning=FALSE}
 rm(list=ls())
-library(terra)
-library(exactextractr)
-library(gdistance)
-library(sf)
-library(spData)
-library(tidyverse) # NOTE: Conflict with terra: tidyr::extract() masks terra::extract()
+library(terra)         # raster operations
+library(exactextractr) # exact_extract() for distances
+library(gdistance)     # fast distance() formula for geo data
+library(sf)            # vector operations
+library(spData)        # geo data
+library(tidyverse)     # NOTE: Conflict -- tidyr::extract() masks terra::extract()
+library(glue)          # printf() syntax
+library(spDataLarge)   # geo data
+library(ggrepel)       # add labels to ggplot
+library(tidyterra)     # visualize geospatial using tidy syntax
+library(patchwork)     # patch tg ggplot objects
 ```
 
 # Vector-Raster Operations
 
 ## Loading
 
-Using the `terra::rast()` function, we can load raster data from downloaded sources. Note that the most common format is .tif
+Using the `terra::rast()` function, we can load raster data from downloaded sources. Note that raster data has two main formats: 
 
-```{r}
-r.nlights <- rast('../../NL')
+  * '.tif' (most common) 
+  * '.nc'  (multilayer)
 
-inMemory(r.nightlights) #note: not loaded in memory!
+### .tif
 
-plot(r.nlights)
+::: {.callout-note}
+[Nightlight data](https://eogdata.mines.edu/products/vnl/) is downloaded from Earth Observation Group, specifically annual VNL V2.2, since it contains consistently processed annual composites, covering 2012 to present. We selected the 'average-masked' values, as it helps to filter out edge cases such as fires and diurnal lighting.
+:::
+
+```{r NL data}
+r.nlights <- rast('nightlights/NL.tif')
+
+inMemory(r.nlights) #note: not loaded in memory!
 ```
+
+Note that raster data is **not** stored in memory. This is extremely important data management as raster data files can be huge (the NL.tif file is >10gb!)
+
+To deal with this specific nightlight data properly, note that since majority of the world is dark at night (think the ocean, deserts, seas, etc), we need to rescale our data as majority of the observations (gridcells) are zero-valued;
+
+```{r NL map}
+summary(r.nlights)
+hist(r.nlights, maxcell = 1e6) # heavy left-skew; need to rescale
+
+r.log <- log1p(r.nlights)  # log1p: log(1+x) rescales well for majority zero-val obs
+
+par(mfrow=c(1,2))
+plot(r.nlights, main = "pre-processed") # note the majority purple map
+plot(r.log, main = "processed using log(1+x)")
+par(mfrow=c(1,1))
+
+```
+
+
+### .nc
 
 Multilayer format: NETCDF .nc
 
-we will blow up the graph if we do not explicity select a sublayer
-
-```{r}
-r.spei <- rast()
-
-plot(r.spei[[1]]) # note the [[x]]
-plot(r.spei[[10]])
-plot(r.spei[[15]])
-plot(r.spei[[21]])
+```{r spei data}
+r.spei <- rast("data/spei01.nc")
+r.spei
 ```
+
+Note the values for `nlyr` -- these are our "layers"; <u>1380</u> in this case corresponds to each time unit -- the data is monthly, spanning form January 1901 to January 2015, resulting in 1380 total months.
+
+We will blow up the graph if we do not explicitly select a sub layer! To do so, we must subset by a unit index (or alternatively by name, if the indices are labeled, given as 'names')
+
+```{r spei graphs}
+#| code-fold: true
+
+glue("the associated names for the 'spei.nc' layers: '{paste(head(names(r.spei), n=4), collapse = ', ')}' ...")
+
+par(mfrow=c(2,2))
+plot(r.spei[[1]], main="index: 't=1'") # note the [[x]] -- returns layer x as a spatRaster object
+plot(r.spei[['spei_10']], main="index: 't=10'")
+plot(r.spei[[15]], main="index: 't=15'")
+plot(r.spei[['spei_21']], main="index: 't=21'")
+par(mfrow=c(1,1))
+```
+
+::: {.callout-note}
+The [SPEI](https://spei.csic.es/map/maps.html#months=1#month=0#year=2026) data is used to monitor global droughts, given as monthly data updated at the first days of each subsequent month, built according to global temperature indices and global precipiation sums. 
+:::
 
 ## Extraction
 
-Extracting the raster value from each cell, where the vertices of a vector object is overlaying the cells. Here, we are using the `exactextractr::exact_extract()` function, as it is computationally efficient; if we want more precise raster values (at the cost of more computational power), we would use `exactextractr::extract()`
+Extracting the raster value from each cell, where the vertices of a vector object is overlaying the cells. In other words, we care about the **intersection** of a vector object onto the gridcells of a raster object. `sf_multipoints` return a value for each cell it is contained within; `sf_polygon` returns one value for **each vertex**.
 
-**Note**: requires standardization from sf vector into `SpatVec()`
+### Points
 
-Under the hood, it must extract vector type of data into spatvec() type of data
-It transforms sf into spatvec() to turn into more coordinates
+For example, let us look at the Zion example from last class. 
 
-## Rasterization
+```{r zion data}
+ # raster: meters above sea lvl
+r.srtm = rast(system.file("raster/srtm.tif", 
+                          package = "spDataLarge"))
 
-Rasterizing sf vector data: transform a simple feature object into a raster object. Works by assigning non-missing values for the intersection raster grid cells (pixels); otherwise, leaves missing.
+# vector: 30 random data points from Zion
+sf.zion_pts <- spDataLarge::zion_points 
+sf.zion_pts
+```
 
-**Very computationally demanding**; only has one realist (but powerful) use case: distances over *friction surfaces*
+Note that we have a raster object and vector object both loaded into our environment now. To extract the values at which the `sf.zion_pts` vector values intersect with the `r.srtm` gridcells, we use the `terra::extract()` function to return a dataFrame, where each vector point has its associated gridcell value mapped to it:
 
-Intuition: distances between two ports over the seine river;  
+```{r zion extract}
+# extract()
+elevation = terra::extract(r.srtm, sf.zion_pts) # 30x2 df: extract elevation from each zion pt
+head(elevation)
+```
 
-  * `rasterize()`, 
-  * `transition()`, 
-  * `shortestpath()`
+:::{.callout-note}
+Note that the `terra::extract` function works sequentially row-wise; it starts from the first observation from the vector object, extract the intersecting gridcell value from the associated raster object, then returns the row number as an "ID" column and the gridcell value as its own column.
+:::
 
-```{r}
+Note we can use the `cbind()` function to now bind these elevation values back to our `sf.zion_pts` vector object
+
+```{r cbind values}
+# cbind()
+sf.zion_pts = cbind(sf.zion_pts, elevation)  
+sf.zion_pts
+```
+
+:::{.callout-warning}
+
+We can do the same for `sf_linestrings`, however, it is not recommended to obtain values along the transect, as it is difficult to get correct distances between each pair of extracted values. The reason is that a linestring may move diagonally and intersect multiple gridcells at a time, given a sort of 'staircase effect.' Further, if a line runs through mostly one gridcell and barely clips the corner of another, they are treated equally and both filled in.
+
+:::
+
+### Linestrings
+
+It is recommended to break up the linestring into multipoints and then extract the values from these points to avoid any issues with distances. For example, imagine we are planning a hike through Zion and want to know the elevation change as we travel along this line.
+
+```{r zion linestring}
+# create a linestring object for dmeo
+sf.zion_transect = cbind(c(-113.2, -112.9), c(37.45, 37.2)) |>
+  st_linestring() |> 
+  st_sfc(crs = crs(r.srtm)) |>
+  st_sf(geometry = _)
+```
+
+First, we must create an unique ID for each row in the object. Afterwards, we then assign equal points along this linestring using the `st_segmentize()` function from `sf`, as specify a given density. 
+
+```{r linestring segments}
+sf.zion_transect$id = 1:nrow(sf.zion_transect) 
+sf.zion_transect = st_segmentize(sf.zion_transect, dfMaxLength = 250) # add points
+sf.zion_transect
+```
+
+Finally, we use `st_cast()` to convert these segmented points into `sf_multipoint` objects.
+
+```{r linestring cast}
+sf.zion_transect = st_cast(sf.zion_transect, "POINT")
+sf.zion_transect
+```
+
+Now, with a large set of points along our line segment, we want to calculate distances between the first point (starting pt) and any subsequent pts using `st_distance()` after grouping by ID (since they all share the same ID value, even after casting).
+
+```{r zion distance}
+# distance from starting pt
+sf.zion_transect = sf.zion_transect |> 
+  group_by(id) |> 
+  mutate(dist = st_distance(geometry)[, 1]) 
+sf.zion_transect
+```
+
+Finally, we can use `terra::extract()` to retrieve the associated elevation (raster gridcell values) that intersect each vector point, and bind this back to our linestring vector object to get our results.
+
+```{r zion linestring extract}
+# extract value of elevation gridcells where vector points intersect
+df.zion_elev = terra::extract(r.srtm, sf.zion_transect)
+# append back to our original object
+sf.zion_transect = cbind(sf.zion_transect, df.zion_elev)
+sf.zion_transect
+```
+
+```{r zion hike plots, warning=FALSE}
+#| code-fold: true
+
+sf.zion <- read_sf(system.file("vector/zion.gpkg", package = "spDataLarge")) # zion ntl park
+
+p1<- ggplot() +
+  geom_spatraster(data=r.srtm) +
+  geom_sf(data=sf.zion, fill=NA,
+          lwd=0.7, col="black")+
+  geom_sf(data=sf.zion_transect) +
+  # Black outlines
+  geom_sf(data = filter(sf.zion_transect, dist == min(dist) | dist == max(dist)),
+          shape = 23, color = "black", fill = NA, size = 4.5, stroke = 1) +
+  # Colored centers
+  geom_sf(data = filter(sf.zion_transect, dist == min(dist)),
+          shape = 23, color = "black", fill = "blue", size = 4) +
+  geom_sf(data = filter(sf.zion_transect, dist == max(dist)),
+          shape = 23, color = "black", fill = "red", size = 4) +
+  geom_text(data = filter(sf.zion_transect, 
+                          dist == min(dist) | dist == max(dist)),
+            aes(label = if_else(dist == min(dist), 
+                                "start", 
+                                "end"),
+                geometry = geometry),
+            vjust = -1,
+            stat = "sf_coordinates",
+            hjust = 0.113)+
+  scale_fill_terrain_c(guide = guide_colorbar(
+      title.position = "top", 
+      title.hjust = 0.5,
+      barwidth = 0.5, 
+      barheight = 15,
+      order = 1  
+    )) +
+  labs(title = "Hike through Zion",
+       fill = "Elevation [m]") +
+  theme_void() +
+  theme(plot.title = element_text(hjust=0.5))
+
+  
+p2<- ggplot(data=st_drop_geometry(sf.zion_transect),
+            aes(x=as.double(dist), y=srtm))+
+  geom_line() +
+  labs(title = "Elevation Change",
+       x = "Distance [m]", 
+       y = "Elevation [m]")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust=0.5))
+  
+  
+p1+p2
+```
+
+### Polygons
+
+:::{.callout-note}
+Here, we are using the `exactextractr::exact_extract()` function, as it is computationally efficient; if we want more precise raster values (at the cost of more computational power), we would use `terra::extract()`. Note that this `exact_extract()` operation requires standardization from a sf vector into `SpatVec()`.
+
+By default, `exact_extract()` calculates the fraction of each cell covered by the polygon, which is much more precise; this way, we can deal more appropriately with cells that are mostly covered by a point versus cells that barely touch.
+
+:::
+
+#### Zonal Statistics
+
+As mentioned previously, polygons return values for each vertex that intersects a gridcell. Such results can be used to generate summary statistics for raster values per polygon, for example to characterize a single region or to compare many regions.
+
+```{r zion polygon}
+# note that exact_extract does NOT create an ID column
+zion_srtm_values <- exactextractr::exact_extract(x = r.srtm, 
+                                                   y = sf.zion)
+zion_srtm_values <- zion_srtm_values[[1]]
+
+zion_srtm_values %>%                  #summary stats
+  rename(elevation = value) %>% 
+    summarize(across(elevation, 
+                     list(min = min, 
+                          mean = mean, 
+                          max = max)))
+```
+
+We can also get the zonal statistics of overlaying raster values in a polygon **directly** by using the `fun` argument in the `exact_extract()` function; for example,
+
+```{r zion summary stats}
+zion.zonal <- exact_extract(x=r.srtm,      # raster
+                            y= sf.zion,    # polygon 
+                            fun = c('mean', 'min', 'max'))  # statistic: min/max/mean/sum, etc
+glue("average elevation in Zion national park: {round(zion.zonal$mean,2)} [m]
+     minimum elevation in Zion national park: {round(zion.zonal$min,2)} [m]
+     maximum elevation in Zion national park: {round(zion.zonal$max,2)} [m]")
 
 ```
 
+Because there is only one polygon in the example, a data frame with a single row is returned; however, the method works when multiple selector polygons are used.
+
+A similar approach works for counting occurrences of categorical raster values within polygons.
+
+```{r categorical extraction}
+r.nlcd = rast(system.file("raster/nlcd.tif", 
+                          package = "spDataLarge"))
+r.nlcd_labels <- levels(r.nlcd)[[1]]
+
+sf.zion2 = st_transform(sf.zion, st_crs(r.nlcd))
+
+df.zion_nlcd<-exact_extract(r.nlcd, sf.zion2)[[1]]
+
+df.zion_nlcd %>% 
+  group_by(value) %>% 
+  count() %>% 
+  left_join(r.nlcd_labels, by = "value") %>% 
+  ungroup() %>% 
+  select(levels, n)
+
+```
+
+```{r categorical plots, warning=FALSE, message=FALSE}
+#| code-fold: true
+
+# Continuous Data (SRTM)
+p_srtm <- ggplot() +
+  geom_spatraster(data = r.srtm) +
+  geom_sf(data = sf.zion, fill = "gray", alpha=0.35,
+          color = "black", linewidth = 0.5) +
+  scale_fill_terrain_c() +
+  labs(title = "A. Continuous data extraction", fill = "Elevation (m)") +
+  theme_void() + # Or theme_minimal()
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = c(0.18, 0.19), 
+    legend.direction = "vertical",
+    legend.background = element_rect(fill = "white", color = "black"),
+    legend.margin = margin(6, 6, 6, 6),
+    legend.key.size = unit(0.4, "cm"),
+    legend.text = element_text(size = 7),
+    legend.title = element_text(size = 8, face = "bold")
+  )
+
+nlcd_colors <- c(
+  "Water" = "#466b9f", 
+  "Developed" = "#d83121", 
+  "Barren" = "#af968c", 
+  "Forest" = "#308e51", 
+  "Shrubland" = "#ccba7d", 
+  "Herbaceous" = "#e3e3c2", 
+  "Cultivated" = "#dbd83d", 
+  "Wetlands" = "#70a3ba",
+  "NA" = "transparent"
+)
+
+# Categorical Data (NLCD)
+p_nlcd <- ggplot() +
+  geom_spatraster(data = r.nlcd) +
+  geom_sf(data = sf.zion2, fill = "gray", alpha = 0.35,
+          color = "black", linewidth = 0.5) +
+  # Using a dedicated "wiki" palette for distinct land cover colors
+  scale_fill_manual(
+    values = nlcd_colors,
+    na.translate = FALSE,
+    guide = guide_legend(
+      title = "Land Cover",
+      nrow = 3, 
+      byrow = TRUE,
+      override.aes = list(size = 4) # Makes legend boxes bigger/easier to see
+    )
+  ) + 
+  labs(title = "B. Categorical data extraction", fill = "Land cover") +
+  theme_void() +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = c(0.18, 0.19), 
+    legend.background = element_rect(fill = "white", color = "black", linewidth = 0.3),
+    legend.text = element_text(size = 7),
+    legend.title = element_text(size = 8, face = "bold"),
+    legend.key.size = unit(0.3, "cm"), 
+    legend.margin = margin(4, 4, 4, 4)
+  ) +
+  guides(fill = guide_legend(ncol = 1, title.position = "top"))
+
+
+p_srtm + p_nlcd
+```
+
+## Rasterization
+
+Rasterizing sf vector data: transform a vector object into a raster object. Works by assigning non-missing values for the intersection raster grid cells (pixels); otherwise, leaves missing.
+
+**Very computationally demanding**; only has one realistic (but powerful) use case: distances over *friction surfaces*
+
+Intuition: distances between two ports over the seine river. Vector operations would "cheat" and find the shortest path on the 2D euclidean plane; raster objects must follow the path given by non-NA gridcells.
+
+```{r seine data}
+#| code-fold: true
+
+sf.seine <- spData::seine
+
+
+
+ggplot(data=sf.seine)+
+  geom_sf(aes(color=name),
+          lwd=0.7) +
+  geom_sf_text(aes(label = name,
+                   color = name),
+               hjust=2,
+               fontface = "italic", 
+               size = 3) +
+  labs(title = "Rivers of the Seine")+
+  theme_void() +
+  theme(plot.title=element_text(hjust=0.5),
+        panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
+        legend.position = 'none')
+```
+
+### Calculating Distances: step-by-step
+
+#### rasterize()
+
+  1. Rasterize the vector using `rasterize()`
+  
+To do so, we need to objects: the vector object we wish to convert, and a 'raster template.' To create an appropriate raster template, we simple initialize a `rast()` object and crop it to the bounds of our vector object. 
+
+:::{.callout.warning}
+Note: We must make sure our projections align; any time we initialize a `rast()` object, it by default takes on WGS84 projection. Thus, if our vector object has a different projection, we will get an error when trying to initialize the raster template.
+:::
+  
+```{r seine rasterize error}
+r.template <- rast() %>% 
+  crop(sf.seine) # Watch out for the projections!
+```
+
+
+```{r seine rasterize template}
+sf.seine <- sf.seine %>% 
+  st_transform('EPSG:4326')
+
+sf.seine
+
+r.template <- rast() %>% # our cropped raster template
+  crop(sf.seine)
+```
+Then, we can apply the `terra::rasterize()` function:
+
+```{r rasterize function}
+r.seine <- terra::rasterize(x=sf.seine,    # vector object
+                            y=r.template,  # template raster
+                            field = 1)     # optional: set touching vals = 1
+
+# cells on the network = 1, off-network = NA
+plot(r.seine, main = "Rasterized Seine network")
+plot(sf.seine, add = TRUE, col = "blue") 
+```
+
+Note that we have low resolution! With a size of $3 \times 5$ with $1^o \times 1^o$ resolution means we only have 15 gridcells! Thus, our sf.seine object intersects nearly the entire raster template; to make this more precise, we need to adjust the resolution of our raster **template** object and re-rasterize.
+
+```{r resolution check}
+r.seine
+
+res(r.template) <- .05
+r.template               # new res increased size to 60x100 = 6,000 gridcells!
+```
+
+With an exponential increase in resolution, we can get a more detailed rasterized object:
+
+```{r final rasterize}
+r.seine <- rasterize(x = sf.seine,
+                     y= r.template,
+                     field = 1)
+# cells on the network = 1, off-network = NA
+plot(r.seine, main = "Rasterized Seine network")
+plot(sf.seine, add = TRUE, col = "blue") 
+```
+
+#### transition()
+
+  2. `gdistance::transition()`
+  
+First, we must convert the NA values to become 0. That way, any distance operations do not fail (when we pass NA) and only matter for non-zero integers. We do this using the `is.na()` function called onto our newly rasterized r.seine object.
+
+```{r convert NA}
+r.seine_filled <- r.seine
+r.seine_filled[is.na(r.seine_filled)] <- 0 # replace NA values with 0
+```
+
+After which we build a `transition()` matrix -- think of each raster cell as a node in a network graph. `transition()` looks at every pair of neighboring cells and asks: "how easy is it to move between these two cells?" The answer gets stored as an edge weight in a large sparse matrix: one row/column per cell, with values representing the cost or ease of traversal. 
+
+Another way to think of a transition matrix is a sparse matrix we store network data in to represent graphs (networks) as a matrix to perform calculations on.
+
+```{r trans matrix}
+r.seine_filled <- raster::raster(r.seine_filled) # convert: SpatRaster --> RasterLayer
+
+# mean conductance between neighbors; 8 directions of movement
+trans <- gdistance::transition(
+  x = r.seine_filled,          # must be a gsitance::Rasterlayer object (not terra::SpatRaster)
+  transitionFunction = mean,   # average conductance of two neighboring cells
+  directions = 8               # 8-connected (includes diagonals)
+)
+```
+
+:::{.callout-note}
+Note some of the arguments included in the `transition()` function
+:::
+
++-----------+-----------+--------------------+
+| Argument     | Function     | Values         |
++===========+===========+====================+
+| x         | passes the raster object to be transitioned into a matrix | - RasterLayer |
++-----------+-----------+--------------------+
+| transitionFunction   |   When deciding the cost of moving from cell A to cell B, it takes the average conductance of both cells. If one cell is 0 (off-network) and the other is 1 (on-network), the mean is 0.5 — a partial barrier. If both are 0, mean is 0: completely impassable. If both are 1, mean is 1: free movement. This is what keeps the path constrained to the river network.   | - mean     |
+|           |           |           |
++-----------+-----------+--------------------+
+| directions   | Specifies which directions each cell can 'see' -- think of number of sides of a shape; 4 represents a square, 8 a octagon, 16, etc. Note we selection 8 since there are 8 gridcells at most surrounding any given gridcell    | - 4 (cardinal NWSE)    |
+|           |           | - 8 (N NW W SW S SE E NE)            |
++-----------+-----------+--------------------+
+
+
+Note that after we build the matrix, we must correct for diagonal distances, as in a grid, the distance between two horizontally or vertically adjacent cells is 1 cell width. But the distance between two diagonally adjacent cells is $\sqrt{2} \approx 1.414$ cell widths. Without correction, the algorithm treats both as equal cost.
+
+```{r correct diags}
+# correct for diagonal distances (geometric correction)
+trans_corrected <- geoCorrection(trans, type = "c")
+```
+
+::: {.callout-important}
+Without `geoCorrection()`, a path that moves diagonally across 10 cells would appear to cost the same as one moving cardinally across 10 cells, even though the diagonal path is actually $ \sim 41\%$ longer in real space. This means the algorithm would prefer diagonal movement, producing paths that snake diagonally rather than following the true network geometry. The correction scales each edge weight by the actual geographic distance between cell centers.
+:::
+  
+  
+#### shortestpath()
+
+  3. `gdistance::shortestpath()` employs a 'minimum-cost' ([Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)) pathfinding algorithm 
+  
+Importantly, we must select a start and end point in our raster object for the algorithm to calculate the shortest path between. 
+
+:::{.callout-important}
+if you place a point in a cell with value 0 (off-network), the algorithm either fails or snaps to the nearest network cell in an unpredictable way.
+:::
+
+To employ, our function needs four arguments:
+
++-----------+-----------+--------------------+
+| Argument  | Function     | Inputs         |
++===========+===========+====================+
+| x         | passes the TransitionLayer matrix in | - TransitionLayer |
+|           |           |     |
++-----------+-----------+--------------------+
+| origin    |  starting cell    | - SpatialPoints(matrix(coords))     |
+|           |           | - as_Spatial(sf.points[x1,])            |
++-----------+-----------+--------------------+
+| goal      |  destination cell    | - SpatialPoints(matrix(coords)) |
+|           |           | - as_Spatial(sf.points[x2,])    |
++-----------+-----------+--------------------+
+| output    |   controls the format the result comes back in a drawable line connecting the two points, or investigate the individual cells the path traversed along   | - "SpatialLines" (default)     |
+|           |           | - "SpatialPixels"            |
++-----------+-----------+--------------------+
+
+```{r origin dest}
+# Good practice: sample directly from the vector network
+
+# get all coordinates for vector object
+coords    <- st_coordinates(sf.seine)
+coords_sp <- SpatialPoints(coords[, 1:2])
+
+# get coords for all raster gridcells
+network_vals <- terra::extract(r.seine_filled, coords_sp)
+
+# only keep coords that contained in raster gridcells (also deal with NAs)
+valid_coords <- coords[network_vals %in% 1, ] 
+
+origin      <- SpatialPoints(matrix(valid_coords[1, 1:2], ncol = 2))
+destination <- SpatialPoints(matrix(valid_coords[nrow(valid_coords), 1:2], ncol = 2))
+
+```
+
+```{r shortestpath}
+# shortest path algorithm
+path <- shortestPath(
+  x      = trans_corrected,
+  origin = origin,
+  goal   = destination,
+  output = "SpatialLines"
+)
+
+plot(r.seine, col="pink", 
+     legend   = FALSE,         # remove the legend
+     axes     = FALSE,         # remove axis labels and gridlines
+     main = "Rasterized Seine network w/ Shortest Path")
+plot(path, add=T,
+     col ="blue", lwd=2)
+```
 
 
 

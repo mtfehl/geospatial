@@ -1,0 +1,15 @@
+{
+  "hash": "67b51e5c919694f450dfb62e22d95fe4",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Project: Migration Patterns\"\nauthor: \"Michael Fehl, Francesco Zucca, Xenia Alemany, Joan Costa\"\ndescription: \" \"\nformat:\n  html:\n    embed-resources: true\ndate: 03-14-2026\nproject: true\nimage: \"/images/placeholder.png\"\n\nexecute:\n  eval: true\n  echo: true    \n  message: false\n  warning: false\n  cache: true    \n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(sf)\nlibrary(tidyverse)\nlibrary(spData)\n```\n:::\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndata <- st_read(\"C:/Users/T14/7Programming/R/class/geospatial/projects/project01/2020_us_urb_area/US_urb_area_2020.shp\")\nsf.cities <- data %>% \n  select(NAME20, INTPTLON20, INTPTLAT20, geometry)\nhead(sf.cities)\n\ndim(sf.cities)\n\nsf.usa <- world %>% \n  filter(name_long == \"United States\")\n\nggplot() +\n  geom_sf(data=sf.usa) +\n  geom_sf(data=sf.cities) +\n  theme_void()\n```\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -15,7 +15,7 @@ execute:
   echo: true    
   message: false
   warning: false
-  cache: false # raster data 
+  cache: false 
 ---
 
 # Intro

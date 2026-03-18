@@ -1,11 +1,11 @@
 ---
-title: "Project: Example"
-author: "Michael Fehl"
+title: "Project: Migration Patterns"
+author: "Michael Fehl, Francesco Zucca, Xenia Alemany, Joan Costa"
 description: " "
 format:
   html:
     embed-resources: true
-date: 12-12-1999
+date: 03-14-2026
 project: true
 image: "/images/placeholder.png"
 
@@ -14,6 +14,65 @@ execute:
   echo: true    
   message: false
   warning: false
-  cache: true    
+  cache: false # for big raster data    
 ---
 
+```{r library}
+library(sf)
+library(tidyverse)
+library(spData)
+```
+
+
+```{r US city data, eval=FALSE}
+data <- st_read("C:/Users/T14/7Programming/R/class/geospatial/projects/project01/data/2020_us_urb_area/US_urb_area_2020.shp")
+
+sf.uscities <- data %>% 
+  select(NAME20, INTPTLON20, INTPTLAT20, geometry)
+head(sf.uscities)
+
+dim(sf.uscities)
+
+sf.usa <- world %>% 
+  filter(name_long == "United States")
+
+ggplot() +
+  geom_sf(data=sf.usa) +
+  geom_sf(data=sf.uscities) +
+  theme_void()
+```
+
+```{r MX city data, eval=FALSE}
+data <- st_read("C:/Users/T14/7Programming/R/class/geospatial/projects/project01/data/")
+
+sf.uscities <- data %>% 
+  select(NAME20, INTPTLON20, INTPTLAT20, geometry)
+head(sf.uscities)
+
+dim(sf.uscities)
+
+sf.usa <- world %>% 
+  filter(name_long == "United States")
+
+ggplot() +
+  geom_sf(data=sf.usa) +
+  geom_sf(data=sf.uscities) +
+  theme_void()
+```
+
+
+```{r MX NL data}
+r.nlights <- rast("data/nightlights/NL.tif")
+# load mexico boundary - can get from INEGI or rnaturalearth
+mex <- geodata::gadm("MEX", level = 0, path = "data/")  # or use st_read() if you have a shapefile
+
+# crop and mask
+r.mex <- crop(r.nlights, mex)        # crop to bounding box first (fast)
+r.mex <- mask(r.mex, mex) 
+
+writeRaster(r.mex, 'data/nightlights/NL_mexico.tif', overwrite = TRUE)
+r.mxlog <- log1p(r.mex)  # log1p handles zeros gracefully (log(1+x))
+plot(r.mxlog)
+```
+
+```

@@ -1,0 +1,482 @@
+---
+title: "Lecture 07: Leaflet"
+description: " "
+author: "Michael Fehl"
+date: "19 February 2026"
+image: "/images/placeholder.png"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    code-fold: false
+    embed-resources: false
+execute:
+  warning: false
+  message: false
+  cache: false # raster data
+---
+
+# Intro
+
+The focus is on two topics: interactive mapping with `leaflet`, and retrieving spatial data programmatically via APIs.
+
+Leaflet is an open-source JavaScript library for interactive maps.
+
+Static maps are well-suited for conveying a single, pre-specified message.
+Interactive maps serve a different purpose: they let the reader (or analyst)
+**explore** the data themselves — zooming in, clicking for attributes, toggling
+layers, and adjusting the view dynamically.
+
+The R package `leaflet` provides a bridge between the spatial objects we
+already work with (`sf`, `terra`) and a fully interactive, browser-based map
+widget. Key use cases:
+
+- Embedding interactive dashboards inside **R Markdown / Quarto** documents
+- Combining with `shiny` to build fully interactive web applications *(not
+  covered in this course)*
+
+# `leaflet`
+
+## Main References
+
+- Agafonkin, V. (2023). *Leaflet for R*. <https://rstudio.github.io/leaflet/>
+- Lovelace, R., Nowosad, J. & Muenchow, J. (2019). *Geocomputation with R*. Chapman and Hall/CRC.
+- Pebesma, E. (2018). Simple features for R. *The R Journal* 10(1), 439–446.
+
+## The Map Widget
+
+The entry point to `leaflet` is the **map widget**: an interactive map window
+rendered in the browser (or in the RStudio Viewer pane).
+
+```{r}
+library(leaflet)
+
+# Create an empty widget
+m <- leaflet()
+m   # print / render
+```
+
+The widget is built up by **piping layers** with `%>%`, exactly like adding
+`geom_*` layers in `ggplot2`. The important constraint is that all spatial
+data must use the **standard geographic CRS EPSG:4326** (WGS 84 longitude/latitude).
+
+---
+
+## Adding Point Data
+
+### `addCircles()`
+
+Renders each point as a scalable circle. Useful when you want the symbol
+size to reflect distance on the ground (radius in metres).
+
+```{r}
+library(leaflet)
+library(spData)
+
+m <- leaflet() %>%
+  addCircles(data = nz_height)
+m
+```
+
+### `addMarkers()`
+
+Renders each point as the classic pin/teardrop marker icon. Useful for
+discrete locations where you plan to attach popups or labels.
+
+```{r}
+m <- leaflet() %>%
+  addMarkers(data = nz_height)
+m
+```
+
+---
+
+## Adding Polygon and Line Data
+
+### `addPolygons()`
+
+Adds `sf` POLYGON (or MULTIPOLYGON) objects as filled, bordered shapes.
+Layers are added in the order they appear in the pipe — put polygons before
+points so the points are drawn on top.
+
+```{r}
+m <- leaflet() %>%
+  addPolygons(data = nz) %>%        # polygon layer (underneath)
+  addMarkers(data = nz_height)      # point layer (on top)
+m
+```
+
+### `addPolylines()`
+
+The equivalent function for `sf` LINESTRING geometries (roads, rivers, borders).
+
+```{r, eval=FALSE}
+# Generic pattern:
+m <- leaflet() %>%
+  addPolylines(data = my_lines_sf)
+```
+
+---
+
+## Adding a Background Map Tile
+
+Without a background, the widget renders on a plain grey canvas. Add a
+tile layer with `addTiles()` (uses OpenStreetMap by default) to give the
+map geographic context.
+
+```{r}
+m <- leaflet() %>%
+  addTiles() %>%                         # OSM background
+  addMarkers(data = nz_height)
+m
+```
+
+::: {.callout-note}
+The default `addTiles()` pulls tiles from **OpenStreetMap** (CC-BY-SA licence).
+This is suitable for exploratory work. For publications, check the
+provider's licence terms.
+:::
+
+---
+
+## Controlling the Initial View: `setView()`
+
+By default, `leaflet` zooms to the bounding box of the data. You can
+override this with `setView()`, specifying a centre coordinate and an
+integer zoom level from 0 (whole world) to 18 (building level).
+
+```{r}
+m <- leaflet() %>%
+  setView(
+    lng  = 170.141717,    # Mt. Cook, New Zealand
+    lat  = -43.595296,
+    zoom = 3              # country level
+  ) %>%
+  addTiles() %>%
+  addMarkers(data = nz_height)
+m
+```
+
+Increasing the zoom level:
+
+```{r}
+m <- leaflet() %>%
+  setView(
+    lng  = 170.141717,
+    lat  = -43.595296,
+    zoom = 13             # street / valley level
+  ) %>%
+  addTiles() %>%
+  addMarkers(data = nz_height)
+m
+```
+
+| Zoom level | Approximate scale |
+|-----------|------------------|
+| 0–2 | World / continent |
+| 3–6 | Country |
+| 7–10 | Region / state |
+| 11–13 | City / town |
+| 14–16 | Neighbourhood |
+| 17–18 | Building level |
+
+---
+
+## Changing the Background Provider
+
+`addTiles()` defaults to OpenStreetMap, but many alternative tile sets are
+available via `addProviderTiles()`. The full list is accessible at
+`leaflet::providers`.
+
+```{r}
+m <- leaflet() %>%
+  addProviderTiles(
+    provider = providers$CartoDB.Positron    # clean, minimal basemap
+  ) %>%
+  addMarkers(data = nz_height)
+m
+```
+
+Other commonly used providers include `providers$Esri.WorldImagery` (satellite),
+`providers$Stamen.Toner` (high-contrast), and `providers$Esri.NatGeoWorldMap`
+(National Geographic style).
+
+---
+
+## Popups and Labels
+
+Both popups and labels attach attribute information to point markers.
+The key practical constraint: the value must be coercible to a **character**
+string (use `as.character()` if needed). The formula notation `~column_name`
+references columns of the data object passed to `data =`.
+
+### Popups — click to reveal
+
+Popups appear **on click**. They are appropriate for detailed information
+that would clutter the map if always visible.
+
+```{r}
+m <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(
+    data  = nz_height,
+    popup = ~elevation       # must be character; numeric works here via coercion
+  )
+m
+```
+
+### Labels — hover to reveal
+
+Labels appear **on hover** (mouse-over). They are better for quick, at-a-glance
+information when browsing the map.
+
+```{r}
+m <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(
+    data  = nz_height,
+    label = ~elevation
+  )
+m
+```
+
+::: {.callout-tip}
+
+To show richer HTML content in a popup (e.g. bold text, multiple fields),
+build the string with `paste()` or `glue()` and wrap it in `htmltools::HTML()`:
+
+```{r}
+popup_text <- paste0(
+  "<b>Elevation:</b> ", nz_height$elevation, " m"
+)
+m <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(data = nz_height, popup = popup_text)
+```
+
+:::
+
+---
+
+## Adding Raster Data: `addRasterImage()`
+
+Continuous raster layers (elevation, NDVI, temperature, etc.) can be overlaid
+on a `leaflet` map with `addRasterImage()`.
+
+```{r eval=FALSE}
+# r.elev must be a raster::raster() object (not a terra SpatRaster directly)
+m <- leaflet() %>%
+  addTiles() %>%
+  addRasterImage(r.elev) %>%
+  addCircles(data = nz_height)
+m
+```
+
+::: {.callout-warning}
+
+### Two important caveats for rasters
+
+1. **Extent**: `leaflet` uses EPSG:4326 (geographic coordinates). If your
+   raster is in a projected CRS, reproject it first with
+   `terra::project(r, "EPSG:4326")` or the `raster` package equivalent.
+
+2. **Object class**: `addRasterImage()` requires a `raster::raster()` object,
+   **not** a `terra::SpatRaster`. Convert with:
+   `r_leaflet <- raster::raster(r_terra)`
+
+For large rasters the file size rendered in the browser can become very large.
+Consider aggregating or clipping to the area of interest first.
+
+:::
+
+---
+
+# Spatial Data via APIs
+
+## What Is an API?
+
+An **API (Application Programming Interface)** is a standardised communication
+channel that allows software systems to exchange data. Web APIs expose data
+over HTTP: you construct a URL with parameters, send a GET request, and receive
+a structured response (typically JSON or XML).
+
+For geospatial work, APIs are valuable because they let you:
+
+- **Geocode** addresses or place names → coordinates
+- **Retrieve boundaries** for administrative units on demand
+- **Query remote datasets** (land cover, population, climate) without
+  downloading entire files
+
+## Geocoding with `https://geocode.maps.co/`
+
+A **geocoding** API converts a text string (address, place name) into a
+latitude/longitude coordinate. The `geocode.maps.co` service offers a free
+tier that is sufficient for classroom use (registration required for an API key).
+
+### Manual vs. Automated
+
+You could geocode by hand: visit the website, type "Barcelona UPF", click
+Find, and record the coordinates (41.387917, 2.169919). But if you need
+coordinates for dozens or hundreds of places, manual entry is impractical.
+
+An API call automates this: you pass the query string programmatically and
+parse the response in R.
+
+### R Implementation with `httr`
+
+```{r eval=FALSE}
+library(httr)
+library(sf)
+
+# Build the request URL
+# Note: spaces in the query must be encoded as "%20"
+query   <- "UPF%20Barcelona"
+api_key <- "YOUR_API_KEY_HERE"
+url     <- paste0(
+  "https://geocode.maps.co/search?q=", query,
+  "&api_key=", api_key
+)
+
+# Send GET request and parse JSON response
+response <- GET(url)
+result   <- content(response, as = "parsed")
+
+# Extract coordinates from first result
+lat <- as.numeric(result[[1]]$lat)
+lon <- as.numeric(result[[1]]$lon)
+
+# Convert to sf POINT object (EPSG:4326)
+upf_sf <- st_as_sf(
+  data.frame(name = "UPF Barcelona", lon = lon, lat = lat),
+  coords = c("lon", "lat"),
+  crs    = 4326
+)
+```
+
+### Combining API Results with Existing `sf` Objects
+
+Once geocoded results are stored as `sf` objects, they integrate seamlessly
+with everything else in the spatial workflow: spatial joins, buffers,
+visualisation with `ggplot2` or `leaflet`.
+
+```{r eval=FALSE}
+# Example: plot UPF location against Barcelona district boundaries
+library(ggplot2)
+
+ggplot() +
+  geom_sf(data = bcn_boundaries) +       # pre-loaded district polygons
+  geom_sf(data = upf_sf, colour = "red", size = 3) +
+  theme_minimal()
+```
+
+---
+
+# Summary: `leaflet` Function Reference
+
+| Task | Function | Key arguments |
+|------|----------|---------------|
+| Create widget | `leaflet()` | `options = leafletOptions(...)` |
+| OSM background | `addTiles()` | — |
+| Custom background | `addProviderTiles()` | `provider = providers$...` |
+| Set initial view | `setView()` | `lng`, `lat`, `zoom` |
+| Add point markers | `addMarkers()` | `data`, `popup`, `label` |
+| Add point circles | `addCircles()` | `data`, `radius`, `color` |
+| Add polygons | `addPolygons()` | `data`, `fillColor`, `weight` |
+| Add lines | `addPolylines()` | `data`, `color`, `weight` |
+| Add raster | `addRasterImage()` | `x` (raster object), `colors`, `opacity` |
+
+::: {.callout-tip}
+
+### Pipe order matters
+`leaflet` layers are drawn in the order they appear in the pipe. Put
+background tiles first, then polygon layers, then point layers — so that
+points are always rendered on top of polygons and both are on top of the
+basemap.
+
+:::
+
+---
+
+# Hands-On Exercises
+
+## Exercise 1: Reproduce a Static Map as a `leaflet` Widget
+
+Take the multi-layer `sf` plot from Lecture 02 (which showed POINT, LINESTRING,
+and POLYGON objects together) and recreate it as an interactive `leaflet` widget.
+
+- Use the same `sf` objects as inputs
+- Add each geometry type as a separate layer
+- Use `addTiles()` for the background
+- Ensure the projection is EPSG:4326
+
+## Exercise 2: Ohio House Sales
+
+Plot a subsample of the `spData::house` dataset (house sales in Ohio)
+as a `leaflet` widget.
+
+- Use `dplyr::sample_n(20)` to draw a manageable subsample (the full dataset
+  is very large)
+- Reproject to EPSG:4326 with `sf::st_transform(house, 4326)` before passing
+  to `leaflet`
+- Display the **sale price** as a hover label (`label = ~price`)
+- Use a custom background tile (e.g. `providers$Esri.NatGeoWorldMap`)
+
+```{r eval=FALSE}
+library(leaflet)
+library(spData)
+library(dplyr)
+library(sf)
+
+house_sample <- house %>%
+  sample_n(20) %>%
+  st_transform(4326)
+
+leaflet() %>%
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
+  addMarkers(
+    data  = house_sample,
+    label = ~as.character(price)
+  )
+```
+
+## Exercise 3: API Geocoding — UPF Barcelona
+
+Use the `geocode.maps.co` API to locate all UPF Barcelona campuses and cafeterias.
+
+1. Construct the query URL for `"UPF%20Barcelona"` and send a GET request
+   with `httr::GET()`
+2. Parse the JSON response and extract all returned locations (name, lat, lon)
+3. Convert results to an `sf` POINT object (EPSG:4326)
+4. Download Barcelona district boundaries (available at the link in the slides)
+5. Plot both layers together with `ggplot2`
+
+**Extension**: use `sf::st_buffer()` to create a 1.5 km buffer around all
+UPF locations, intersect with the district boundaries, and visualise only the
+districts that fall within that buffer.
+
+```{r eval=FALSE}
+# Buffer and spatial filter (extension)
+library(sf)
+
+upf_buffer <- st_buffer(
+  st_transform(upf_sf, 25831),   # project to metres (ETRS89 UTM zone 31N)
+  dist = 1500                    # 1.5 km
+) %>%
+  st_transform(4326)             # back to geographic for leaflet
+
+bcn_within <- bcn_boundaries[
+  lengths(st_intersects(bcn_boundaries, upf_buffer)) > 0, 
+]
+```
+
+
+---
+
+## References
+
+- Agafonkin, V. (2023). *Leaflet for R*. <https://rstudio.github.io/leaflet/>
+- Lovelace, R., Nowosad, J. & Muenchow, J. (2019). *Geocomputation with R*. Chapman and Hall/CRC.
+- Pebesma, E. (2018). Simple features for R: Standardized support for spatial vector data. *The R Journal* 10(1), 439–446.
+- Wickham, H. & Grolemund, G. (2016). *R for Data Science*. O'Reilly Media.

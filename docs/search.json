@@ -193,21 +193,21 @@
     "href": "index.html#class-notes",
     "title": "Geospatial Data Science & Economic Spatial Models",
     "section": "Class Notes",
-    "text": "Class Notes\n\n\n\n\n\n\n\n\n\n\nClass 01: Intro to Vector Data & sf Library\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 02: Spatial Data Manipulation & Transformations\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 03: Geometry Operations\n\n24 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 04: Intro to Raster Data\n\n8 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Class Notes\n\n\n\n\n\n\n\n\n\n\nClass 01: Intro to Vector Data & sf Library\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 02: Spatial Data Manipulation & Transformations\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 03: Geometry Operations\n\n24 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 04: Intro to Raster Data\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 04: Intro to Raster Data\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\n\nClass 05: Raster-Vector Operations\n\n22 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#problem-sets",
     "href": "index.html#problem-sets",
     "title": "Geospatial Data Science & Economic Spatial Models",
     "section": "Problem Sets",
-    "text": "Problem Sets\n\n\n\n\n\n\n\n\n\n\nProblem Set 2: Population & Marketplaces\n\n33 min\n\nDownloading and manipulating geospatial data to visualize populations, locations, and distances.\n\n\n\n\n\n\n\n\n\n\n\n\nProblem Set 1: Replicating Research Papers\n\n14 min\n\nReplication of Vietnam road infrastructure figures\n\n\n\n\n\n\n\n\n\n\n\n\nProblem Set 3:\n\n1 min\n\nplaceholder_text\n\n\n\n\n\nNo matching items"
+    "text": "Problem Sets\n\n\n\n\n\n\n\n\n\n\nProblem Set 3: Droughts & Transportation\n\n14 min\n\nReplicating graphs displaying droughts in the USA & transportation distances in Spain\n\n\n\n\n\n\n\n\n\n\n\n\nProblem Set 2: Population & Marketplaces\n\n33 min\n\nDownloading and manipulating geospatial data to visualize populations, locations, and distances.\n\n\n\n\n\n\n\n\n\n\n\n\nProblem Set 1: Replicating Research Papers\n\n14 min\n\nReplication of Vietnam road infrastructure figures\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#projects",
     "href": "index.html#projects",
     "title": "Geospatial Data Science & Economic Spatial Models",
     "section": "Projects",
-    "text": "Projects\n\n\n\n\n\n\n\n\n\n\nProject: Example\n\n1 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Projects\n\n\n\n\n\n\n\n\n\n\nProject: Migration Patterns\n\n1 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/02/02.html",
@@ -313,5 +313,159 @@
     "title": "Problem Set 3:",
     "section": "",
     "text": "final_plots\n\n# Adust plots to match outline, remove gridlines, axis ticks, etc.\n\n\n\nplaceholder_text"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html",
+    "href": "notes/06/leaflet07.html",
+    "title": "Lecture 07: Leaflet",
+    "section": "",
+    "text": "The focus is on two topics: interactive mapping with leaflet, and retrieving spatial data programmatically via APIs.\nLeaflet is an open-source JavaScript library for interactive maps.\nStatic maps are well-suited for conveying a single, pre-specified message. Interactive maps serve a different purpose: they let the reader (or analyst) explore the data themselves — zooming in, clicking for attributes, toggling layers, and adjusting the view dynamically.\nThe R package leaflet provides a bridge between the spatial objects we already work with (sf, terra) and a fully interactive, browser-based map widget. Key use cases:\n\nEmbedding interactive dashboards inside R Markdown / Quarto documents\nCombining with shiny to build fully interactive web applications (not covered in this course)"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#main-references",
+    "href": "notes/06/leaflet07.html#main-references",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.1 Main References",
+    "text": "2.1 Main References\n\nAgafonkin, V. (2023). Leaflet for R. https://rstudio.github.io/leaflet/\nLovelace, R., Nowosad, J. & Muenchow, J. (2019). Geocomputation with R. Chapman and Hall/CRC.\nPebesma, E. (2018). Simple features for R. The R Journal 10(1), 439–446."
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#the-map-widget",
+    "href": "notes/06/leaflet07.html#the-map-widget",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.2 The Map Widget",
+    "text": "2.2 The Map Widget\nThe entry point to leaflet is the map widget: an interactive map window rendered in the browser (or in the RStudio Viewer pane).\n\nlibrary(leaflet)\n\n# Create an empty widget\nm &lt;- leaflet()\nm   # print / render\n\n\n\n\n\nThe widget is built up by piping layers with %&gt;%, exactly like adding geom_* layers in ggplot2. The important constraint is that all spatial data must use the standard geographic CRS EPSG:4326 (WGS 84 longitude/latitude)."
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#adding-point-data",
+    "href": "notes/06/leaflet07.html#adding-point-data",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.3 Adding Point Data",
+    "text": "2.3 Adding Point Data\n\n2.3.1 addCircles()\nRenders each point as a scalable circle. Useful when you want the symbol size to reflect distance on the ground (radius in metres).\n\nlibrary(leaflet)\nlibrary(spData)\n\nm &lt;- leaflet() %&gt;%\n  addCircles(data = nz_height)\nm\n\n\n\n\n\n\n\n2.3.2 addMarkers()\nRenders each point as the classic pin/teardrop marker icon. Useful for discrete locations where you plan to attach popups or labels.\n\nm &lt;- leaflet() %&gt;%\n  addMarkers(data = nz_height)\nm"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#adding-polygon-and-line-data",
+    "href": "notes/06/leaflet07.html#adding-polygon-and-line-data",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.4 Adding Polygon and Line Data",
+    "text": "2.4 Adding Polygon and Line Data\n\n2.4.1 addPolygons()\nAdds sf POLYGON (or MULTIPOLYGON) objects as filled, bordered shapes. Layers are added in the order they appear in the pipe — put polygons before points so the points are drawn on top.\n\nm &lt;- leaflet() %&gt;%\n  addPolygons(data = nz) %&gt;%        # polygon layer (underneath)\n  addMarkers(data = nz_height)      # point layer (on top)\nm\n\n\n\n\n\n\n\n2.4.2 addPolylines()\nThe equivalent function for sf LINESTRING geometries (roads, rivers, borders).\n\n# Generic pattern:\nm &lt;- leaflet() %&gt;%\n  addPolylines(data = my_lines_sf)"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#adding-a-background-map-tile",
+    "href": "notes/06/leaflet07.html#adding-a-background-map-tile",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.5 Adding a Background Map Tile",
+    "text": "2.5 Adding a Background Map Tile\nWithout a background, the widget renders on a plain grey canvas. Add a tile layer with addTiles() (uses OpenStreetMap by default) to give the map geographic context.\n\nm &lt;- leaflet() %&gt;%\n  addTiles() %&gt;%                         # OSM background\n  addMarkers(data = nz_height)\nm\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe default addTiles() pulls tiles from OpenStreetMap (CC-BY-SA licence). This is suitable for exploratory work. For publications, check the provider’s licence terms."
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#controlling-the-initial-view-setview",
+    "href": "notes/06/leaflet07.html#controlling-the-initial-view-setview",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.6 Controlling the Initial View: setView()",
+    "text": "2.6 Controlling the Initial View: setView()\nBy default, leaflet zooms to the bounding box of the data. You can override this with setView(), specifying a centre coordinate and an integer zoom level from 0 (whole world) to 18 (building level).\n\nm &lt;- leaflet() %&gt;%\n  setView(\n    lng  = 170.141717,    # Mt. Cook, New Zealand\n    lat  = -43.595296,\n    zoom = 3              # country level\n  ) %&gt;%\n  addTiles() %&gt;%\n  addMarkers(data = nz_height)\nm\n\n\n\n\n\nIncreasing the zoom level:\n\nm &lt;- leaflet() %&gt;%\n  setView(\n    lng  = 170.141717,\n    lat  = -43.595296,\n    zoom = 13             # street / valley level\n  ) %&gt;%\n  addTiles() %&gt;%\n  addMarkers(data = nz_height)\nm\n\n\n\n\n\n\n\n\nZoom level\nApproximate scale\n\n\n\n\n0–2\nWorld / continent\n\n\n3–6\nCountry\n\n\n7–10\nRegion / state\n\n\n11–13\nCity / town\n\n\n14–16\nNeighbourhood\n\n\n17–18\nBuilding level"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#changing-the-background-provider",
+    "href": "notes/06/leaflet07.html#changing-the-background-provider",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.7 Changing the Background Provider",
+    "text": "2.7 Changing the Background Provider\naddTiles() defaults to OpenStreetMap, but many alternative tile sets are available via addProviderTiles(). The full list is accessible at leaflet::providers.\n\nm &lt;- leaflet() %&gt;%\n  addProviderTiles(\n    provider = providers$CartoDB.Positron    # clean, minimal basemap\n  ) %&gt;%\n  addMarkers(data = nz_height)\nm\n\n\n\n\n\nOther commonly used providers include providers$Esri.WorldImagery (satellite), providers$Stamen.Toner (high-contrast), and providers$Esri.NatGeoWorldMap (National Geographic style)."
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#popups-and-labels",
+    "href": "notes/06/leaflet07.html#popups-and-labels",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.8 Popups and Labels",
+    "text": "2.8 Popups and Labels\nBoth popups and labels attach attribute information to point markers. The key practical constraint: the value must be coercible to a character string (use as.character() if needed). The formula notation ~column_name references columns of the data object passed to data =.\n\n2.8.1 Popups — click to reveal\nPopups appear on click. They are appropriate for detailed information that would clutter the map if always visible.\n\nm &lt;- leaflet() %&gt;%\n  addTiles() %&gt;%\n  addMarkers(\n    data  = nz_height,\n    popup = ~elevation       # must be character; numeric works here via coercion\n  )\nm\n\n\n\n\n\n\n\n2.8.2 Labels — hover to reveal\nLabels appear on hover (mouse-over). They are better for quick, at-a-glance information when browsing the map.\n\nm &lt;- leaflet() %&gt;%\n  addTiles() %&gt;%\n  addMarkers(\n    data  = nz_height,\n    label = ~elevation\n  )\nm\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nTo show richer HTML content in a popup (e.g. bold text, multiple fields), build the string with paste() or glue() and wrap it in htmltools::HTML():\n\npopup_text &lt;- paste0(\n  \"&lt;b&gt;Elevation:&lt;/b&gt; \", nz_height$elevation, \" m\"\n)\nm &lt;- leaflet() %&gt;%\n  addTiles() %&gt;%\n  addMarkers(data = nz_height, popup = popup_text)"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#adding-raster-data-addrasterimage",
+    "href": "notes/06/leaflet07.html#adding-raster-data-addrasterimage",
+    "title": "Lecture 07: Leaflet",
+    "section": "2.9 Adding Raster Data: addRasterImage()",
+    "text": "2.9 Adding Raster Data: addRasterImage()\nContinuous raster layers (elevation, NDVI, temperature, etc.) can be overlaid on a leaflet map with addRasterImage().\n\n# r.elev must be a raster::raster() object (not a terra SpatRaster directly)\nm &lt;- leaflet() %&gt;%\n  addTiles() %&gt;%\n  addRasterImage(r.elev) %&gt;%\n  addCircles(data = nz_height)\nm\n\n\n\n\n\n\n\nWarningTwo important caveats for rasters\n\n\n\n\nExtent: leaflet uses EPSG:4326 (geographic coordinates). If your raster is in a projected CRS, reproject it first with terra::project(r, \"EPSG:4326\") or the raster package equivalent.\nObject class: addRasterImage() requires a raster::raster() object, not a terra::SpatRaster. Convert with: r_leaflet &lt;- raster::raster(r_terra)\n\nFor large rasters the file size rendered in the browser can become very large. Consider aggregating or clipping to the area of interest first."
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#what-is-an-api",
+    "href": "notes/06/leaflet07.html#what-is-an-api",
+    "title": "Lecture 07: Leaflet",
+    "section": "3.1 What Is an API?",
+    "text": "3.1 What Is an API?\nAn API (Application Programming Interface) is a standardised communication channel that allows software systems to exchange data. Web APIs expose data over HTTP: you construct a URL with parameters, send a GET request, and receive a structured response (typically JSON or XML).\nFor geospatial work, APIs are valuable because they let you:\n\nGeocode addresses or place names → coordinates\nRetrieve boundaries for administrative units on demand\nQuery remote datasets (land cover, population, climate) without downloading entire files"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#geocoding-with-httpsgeocode.maps.co",
+    "href": "notes/06/leaflet07.html#geocoding-with-httpsgeocode.maps.co",
+    "title": "Lecture 07: Leaflet",
+    "section": "3.2 Geocoding with https://geocode.maps.co/",
+    "text": "3.2 Geocoding with https://geocode.maps.co/\nA geocoding API converts a text string (address, place name) into a latitude/longitude coordinate. The geocode.maps.co service offers a free tier that is sufficient for classroom use (registration required for an API key).\n\n3.2.1 Manual vs. Automated\nYou could geocode by hand: visit the website, type “Barcelona UPF”, click Find, and record the coordinates (41.387917, 2.169919). But if you need coordinates for dozens or hundreds of places, manual entry is impractical.\nAn API call automates this: you pass the query string programmatically and parse the response in R.\n\n\n3.2.2 R Implementation with httr\n\nlibrary(httr)\nlibrary(sf)\n\n# Build the request URL\n# Note: spaces in the query must be encoded as \"%20\"\nquery   &lt;- \"UPF%20Barcelona\"\napi_key &lt;- \"YOUR_API_KEY_HERE\"\nurl     &lt;- paste0(\n  \"https://geocode.maps.co/search?q=\", query,\n  \"&api_key=\", api_key\n)\n\n# Send GET request and parse JSON response\nresponse &lt;- GET(url)\nresult   &lt;- content(response, as = \"parsed\")\n\n# Extract coordinates from first result\nlat &lt;- as.numeric(result[[1]]$lat)\nlon &lt;- as.numeric(result[[1]]$lon)\n\n# Convert to sf POINT object (EPSG:4326)\nupf_sf &lt;- st_as_sf(\n  data.frame(name = \"UPF Barcelona\", lon = lon, lat = lat),\n  coords = c(\"lon\", \"lat\"),\n  crs    = 4326\n)\n\n\n\n3.2.3 Combining API Results with Existing sf Objects\nOnce geocoded results are stored as sf objects, they integrate seamlessly with everything else in the spatial workflow: spatial joins, buffers, visualisation with ggplot2 or leaflet.\n\n# Example: plot UPF location against Barcelona district boundaries\nlibrary(ggplot2)\n\nggplot() +\n  geom_sf(data = bcn_boundaries) +       # pre-loaded district polygons\n  geom_sf(data = upf_sf, colour = \"red\", size = 3) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#exercise-1-reproduce-a-static-map-as-a-leaflet-widget",
+    "href": "notes/06/leaflet07.html#exercise-1-reproduce-a-static-map-as-a-leaflet-widget",
+    "title": "Lecture 07: Leaflet",
+    "section": "5.1 Exercise 1: Reproduce a Static Map as a leaflet Widget",
+    "text": "5.1 Exercise 1: Reproduce a Static Map as a leaflet Widget\nTake the multi-layer sf plot from Lecture 02 (which showed POINT, LINESTRING, and POLYGON objects together) and recreate it as an interactive leaflet widget.\n\nUse the same sf objects as inputs\nAdd each geometry type as a separate layer\nUse addTiles() for the background\nEnsure the projection is EPSG:4326"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#exercise-2-ohio-house-sales",
+    "href": "notes/06/leaflet07.html#exercise-2-ohio-house-sales",
+    "title": "Lecture 07: Leaflet",
+    "section": "5.2 Exercise 2: Ohio House Sales",
+    "text": "5.2 Exercise 2: Ohio House Sales\nPlot a subsample of the spData::house dataset (house sales in Ohio) as a leaflet widget.\n\nUse dplyr::sample_n(20) to draw a manageable subsample (the full dataset is very large)\nReproject to EPSG:4326 with sf::st_transform(house, 4326) before passing to leaflet\nDisplay the sale price as a hover label (label = ~price)\nUse a custom background tile (e.g. providers$Esri.NatGeoWorldMap)\n\n\nlibrary(leaflet)\nlibrary(spData)\nlibrary(dplyr)\nlibrary(sf)\n\nhouse_sample &lt;- house %&gt;%\n  sample_n(20) %&gt;%\n  st_transform(4326)\n\nleaflet() %&gt;%\n  addProviderTiles(providers$Esri.NatGeoWorldMap) %&gt;%\n  addMarkers(\n    data  = house_sample,\n    label = ~as.character(price)\n  )"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#exercise-3-api-geocoding-upf-barcelona",
+    "href": "notes/06/leaflet07.html#exercise-3-api-geocoding-upf-barcelona",
+    "title": "Lecture 07: Leaflet",
+    "section": "5.3 Exercise 3: API Geocoding — UPF Barcelona",
+    "text": "5.3 Exercise 3: API Geocoding — UPF Barcelona\nUse the geocode.maps.co API to locate all UPF Barcelona campuses and cafeterias.\n\nConstruct the query URL for \"UPF%20Barcelona\" and send a GET request with httr::GET()\nParse the JSON response and extract all returned locations (name, lat, lon)\nConvert results to an sf POINT object (EPSG:4326)\nDownload Barcelona district boundaries (available at the link in the slides)\nPlot both layers together with ggplot2\n\nExtension: use sf::st_buffer() to create a 1.5 km buffer around all UPF locations, intersect with the district boundaries, and visualise only the districts that fall within that buffer.\n\n# Buffer and spatial filter (extension)\nlibrary(sf)\n\nupf_buffer &lt;- st_buffer(\n  st_transform(upf_sf, 25831),   # project to metres (ETRS89 UTM zone 31N)\n  dist = 1500                    # 1.5 km\n) %&gt;%\n  st_transform(4326)             # back to geographic for leaflet\n\nbcn_within &lt;- bcn_boundaries[\n  lengths(st_intersects(bcn_boundaries, upf_buffer)) &gt; 0, \n]"
+  },
+  {
+    "objectID": "notes/06/leaflet07.html#references",
+    "href": "notes/06/leaflet07.html#references",
+    "title": "Lecture 07: Leaflet",
+    "section": "5.4 References",
+    "text": "5.4 References\n\nAgafonkin, V. (2023). Leaflet for R. https://rstudio.github.io/leaflet/\nLovelace, R., Nowosad, J. & Muenchow, J. (2019). Geocomputation with R. Chapman and Hall/CRC.\nPebesma, E. (2018). Simple features for R: Standardized support for spatial vector data. The R Journal 10(1), 439–446.\nWickham, H. & Grolemund, G. (2016). R for Data Science. O’Reilly Media."
+  },
+  {
+    "objectID": "problem_sets/03ps/ps03.html",
+    "href": "problem_sets/03ps/ps03.html",
+    "title": "Problem Set 3:",
+    "section": "",
+    "text": "Goal : Model the following:\n\nClimate Change in the USA\nTransportation Isolation & Centrality in Spain"
+  },
+  {
+    "objectID": "problem_sets/03ps/ps03.html#reference",
+    "href": "problem_sets/03ps/ps03.html#reference",
+    "title": "Problem Set 3:",
+    "section": "Reference",
+    "text": "Reference\nAttached is the figure we are attempting to replicate qualitatively (not identically):\n\n\n\n\n\n\n\n\nDrought Risk by Year & Region\n\n\n\n\n\n\nFigure 1: SPEI Drought Index: USA"
+  },
+  {
+    "objectID": "problem_sets/03ps/ps03.html#map_1",
+    "href": "problem_sets/03ps/ps03.html#map_1",
+    "title": "Problem Set 3:",
+    "section": "Map_1",
+    "text": "Map_1\n\nsubsection\nplaceholder_text\n\n\nData Source 1: placeholder_text\nData Source\n\n#data_name &lt;- read(\"path/data.type\")\n\nNote that… placeholder_text\n\n\nsubsection\n\n# placeholder_text\n\nplaceholder_list:\n\nplaceholder_text\nplaceholder_text\nplaceholder_text\n\nplaceholder_list:\n\nplaceholder_text\nplaceholder_text\nplaceholder_text\n\nplaceholder_text\n\n\nOperations_and_Plot"
+  },
+  {
+    "objectID": "problem_sets/03ps/ps03.html#map_2",
+    "href": "problem_sets/03ps/ps03.html#map_2",
+    "title": "Problem Set 3:",
+    "section": "Map_2",
+    "text": "Map_2\n\nData Source 2: placeholder_text\ncan be found here.\n\n# placeholder_text\n# data_name &lt;- read(\"data\")\n\nNote: placeholder_text\n\n\nsubsection\n\n# placeholder_text\n\nAs we can see, this dataset contains many more possible road types than our previous one. Thus, we will use this dataset to try and replicate the 2010 plot more closely.\nplaceholder list:\n\nplaceholder_text\nplaceholder_text\nplaceholder_text\nplaceholder_text\nplaceholder_text\n\nplaceholder table:\n\n\n\nname1\n“placeholder_text”\n\n\nname2\n“placeholder_text”\n\n\nname3\n“placeholder_text”\n\n\nname4\n“placeholder_text”\n\n\nname5\n“placeholder_text”\n\n\n\n\n\nOperations & Plot (1)\n\n\nOperations & Plot (2)"
+  },
+  {
+    "objectID": "problem_sets/03ps/ps03.html#results",
+    "href": "problem_sets/03ps/ps03.html#results",
+    "title": "Problem Set 3:",
+    "section": "Results",
+    "text": "Results\nfinal_plots\n\n# Adust plots to match outline, remove gridlines, axis ticks, etc.\n\n\nObservations\nplaceholder_text"
+  },
+  {
+    "objectID": "problem_sets/03ps/ps03.html#reference-1",
+    "href": "problem_sets/03ps/ps03.html#reference-1",
+    "title": "Problem Set 3:",
+    "section": "Reference",
+    "text": "Reference\nAttached are the figures we are attempting to replicate qualitatively (not identically):\n\n\n\n\n\n\n\n\nTransportation Infrastructure in Spain\n\n\n\n\n\n\n\nDensity of Distances to Transportation\n\n\n\n\n\n\nFigure 2: Transportation and Isolation in Spain: Madrid vs Vigo"
   }
 ]
