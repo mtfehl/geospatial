@@ -4,7 +4,7 @@ author: "Michael Fehl, Francesco Zucca, Xenia Alemany, Joan Costa"
 description: " "
 format:
   html:
-    embed-resources: true
+    embed-resources: false
 date: 03-14-2026
 project: true
 image: "/images/placeholder.png"

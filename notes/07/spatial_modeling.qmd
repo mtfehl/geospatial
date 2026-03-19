@@ -8,7 +8,7 @@ format:
   html:
     embed-resources: true
     code-fold: false
-image: "/images/placeholder.png"
+image: "/images/market_access_spatial.png"
     
 execute:
   eval: false

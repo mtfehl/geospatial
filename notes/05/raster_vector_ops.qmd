@@ -8,7 +8,7 @@ format:
   html:
     embed-resources: true
     code-fold: false
-image: "/images/placeholder.png"
+image: "/images/raster_vec_ops.png"
     
 execute:
   eval: false
@@ -86,7 +86,7 @@ r.spei <- rast("data/spei01.nc")
 r.spei
 ```
 
-Note the values for `nlyr` -- these are our "layers"; <u>1380</u> in this case corresponds to each time unit -- the data is monthly, spanning form January 1901 to January 2015, resulting in 1380 total months.
+Note the values for `nlyr` -- these are our "layers"; <u>1380</u> in this case corresponds to each time unit -- the data is monthly, spanning from January 1901 to January 2015, resulting in 1380 total months.
 
 We will blow up the graph if we do not explicitly select a sub layer! To do so, we must subset by a unit index (or alternatively by name, if the indices are labeled, given as 'names')
 
@@ -104,7 +104,7 @@ par(mfrow=c(1,1))
 ```
 
 ::: {.callout-note}
-The [SPEI](https://spei.csic.es/map/maps.html#months=1#month=0#year=2026) data is used to monitor global droughts, given as monthly data updated at the first days of each subsequent month, built according to global temperature indices and global precipiation sums. 
+The [SPEI](https://spei.csic.es/map/maps.html#months=1#month=0#year=2026) data is used to monitor global droughts, given as monthly data updated at the first days of each subsequent month, built according to global temperature indices and global precipitation sums. 
 :::
 
 ## Extraction
@@ -175,7 +175,7 @@ Finally, we use `st_cast()` to convert these segmented points into `sf_multipoin
 
 ```{r linestring cast}
 sf.zion_transect = st_cast(sf.zion_transect, "POINT")
-sf.zion_transect
+head(sf.zion_transect)
 ```
 
 Now, with a large set of points along our line segment, we want to calculate distances between the first point (starting pt) and any subsequent pts using `st_distance()` after grouping by ID (since they all share the same ID value, even after casting).
@@ -185,7 +185,7 @@ Now, with a large set of points along our line segment, we want to calculate dis
 sf.zion_transect = sf.zion_transect |> 
   group_by(id) |> 
   mutate(dist = st_distance(geometry)[, 1]) 
-sf.zion_transect
+head(sf.zion_transect) # sanity check
 ```
 
 Finally, we can use `terra::extract()` to retrieve the associated elevation (raster gridcell values) that intersect each vector point, and bind this back to our linestring vector object to get our results.
@@ -195,7 +195,7 @@ Finally, we can use `terra::extract()` to retrieve the associated elevation (ras
 df.zion_elev = terra::extract(r.srtm, sf.zion_transect)
 # append back to our original object
 sf.zion_transect = cbind(sf.zion_transect, df.zion_elev)
-sf.zion_transect
+head(sf.zion_transect)
 ```
 
 ```{r zion hike plots, warning=FALSE}
@@ -421,7 +421,7 @@ To do so, we need to objects: the vector object we wish to convert, and a 'raste
 Note: We must make sure our projections align; any time we initialize a `rast()` object, it by default takes on WGS84 projection. Thus, if our vector object has a different projection, we will get an error when trying to initialize the raster template.
 :::
   
-```{r seine rasterize error}
+```{r seine rasterize error, error=TRUE}
 r.template <- rast() %>% 
   crop(sf.seine) # Watch out for the projections!
 ```

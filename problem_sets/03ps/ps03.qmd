@@ -10,7 +10,7 @@ format:
     code-fold: false
   pdf:
     toc: true
-image: "/images/placeholder.png"
+image: "distributions.png"
 
 execute:
   eval: true

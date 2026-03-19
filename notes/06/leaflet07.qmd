@@ -3,7 +3,7 @@ title: "Lecture 07: Leaflet"
 description: " "
 author: "Michael Fehl"
 date: "19 February 2026"
-image: "/images/placeholder.png"
+image: "/images/leaflet_map.png"
 format:
   html:
     toc: true
@@ -26,7 +26,7 @@ Leaflet is an open-source JavaScript library for interactive maps.
 
 Static maps are well-suited for conveying a single, pre-specified message.
 Interactive maps serve a different purpose: they let the reader (or analyst)
-**explore** the data themselves — zooming in, clicking for attributes, toggling
+**explore** the data themselves; zooming in, clicking for attributes, toggling
 layers, and adjusting the view dynamically.
 
 The R package `leaflet` provides a bridge between the spatial objects we
@@ -98,7 +98,7 @@ m
 ### `addPolygons()`
 
 Adds `sf` POLYGON (or MULTIPOLYGON) objects as filled, bordered shapes.
-Layers are added in the order they appear in the pipe — put polygons before
+Layers are added in the order they appear in the pipe; put polygons before
 points so the points are drawn on top.
 
 ```{r}
@@ -212,7 +212,7 @@ The key practical constraint: the value must be coercible to a **character**
 string (use `as.character()` if needed). The formula notation `~column_name`
 references columns of the data object passed to `data =`.
 
-### Popups — click to reveal
+### Popups; click to reveal
 
 Popups appear **on click**. They are appropriate for detailed information
 that would clutter the map if always visible.
@@ -227,7 +227,7 @@ m <- leaflet() %>%
 m
 ```
 
-### Labels — hover to reveal
+### Labels; hover to reveal
 
 Labels appear **on hover** (mouse-over). They are better for quick, at-a-glance
 information when browsing the map.
@@ -378,7 +378,7 @@ ggplot() +
 | Task | Function | Key arguments |
 |------|----------|---------------|
 | Create widget | `leaflet()` | `options = leafletOptions(...)` |
-| OSM background | `addTiles()` | — |
+| OSM background | `addTiles()` |; |
 | Custom background | `addProviderTiles()` | `provider = providers$...` |
 | Set initial view | `setView()` | `lng`, `lat`, `zoom` |
 | Add point markers | `addMarkers()` | `data`, `popup`, `label` |
@@ -391,7 +391,7 @@ ggplot() +
 
 ### Pipe order matters
 `leaflet` layers are drawn in the order they appear in the pipe. Put
-background tiles first, then polygon layers, then point layers — so that
+background tiles first, then polygon layers, then point layers; so that
 points are always rendered on top of polygons and both are on top of the
 basemap.
 
@@ -441,7 +441,7 @@ leaflet() %>%
   )
 ```
 
-## Exercise 3: API Geocoding — UPF Barcelona
+## Exercise 3: API Geocoding; UPF Barcelona
 
 Use the `geocode.maps.co` API to locate all UPF Barcelona campuses and cafeterias.
 

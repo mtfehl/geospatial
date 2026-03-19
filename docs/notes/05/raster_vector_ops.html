@@ -4786,7 +4786,7 @@ Note
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>r.spei <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/spei01.nc&quot;</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>r.spei</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Note the values for <code>nlyr</code> – these are our “layers”; <u>1380</u> in this case corresponds to each time unit – the data is monthly, spanning form January 1901 to January 2015, resulting in 1380 total months.</p>
+<p>Note the values for <code>nlyr</code> – these are our “layers”; <u>1380</u> in this case corresponds to each time unit – the data is monthly, spanning from January 1901 to January 2015, resulting in 1380 total months.</p>
 <p>We will blow up the graph if we do not explicitly select a sub layer! To do so, we must subset by a unit index (or alternatively by name, if the indices are labeled, given as ‘names’)</p>
 <div class="cell">
 <details class="code-fold">
@@ -4811,7 +4811,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <a href="https://spei.csic.es/map/maps.html#months=1#month=0#year=2026">SPEI</a> data is used to monitor global droughts, given as monthly data updated at the first days of each subsequent month, built according to global temperature indices and global precipiation sums.</p>
+<p>The <a href="https://spei.csic.es/map/maps.html#months=1#month=0#year=2026">SPEI</a> data is used to monitor global droughts, given as monthly data updated at the first days of each subsequent month, built according to global temperature indices and global precipitation sums.</p>
 </div>
 </div>
 </section>
@@ -4889,7 +4889,7 @@ Warning
 <p>Finally, we use <code>st_cast()</code> to convert these segmented points into <code>sf_multipoint</code> objects.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sf.zion_transect <span class="ot">=</span> <span class="fu">st_cast</span>(sf.zion_transect, <span class="st">&quot;POINT&quot;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sf.zion_transect</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf.zion_transect)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, with a large set of points along our line segment, we want to calculate distances between the first point (starting pt) and any subsequent pts using <code>st_distance()</code> after grouping by ID (since they all share the same ID value, even after casting).</p>
 <div class="cell">
@@ -4897,7 +4897,7 @@ Warning
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sf.zion_transect <span class="ot">=</span> sf.zion_transect <span class="sc">|&gt;</span> </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id) <span class="sc">|&gt;</span> </span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dist =</span> <span class="fu">st_distance</span>(geometry)[, <span class="dv">1</span>]) </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>sf.zion_transect</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf.zion_transect) <span class="co"># sanity check</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we can use <code>terra::extract()</code> to retrieve the associated elevation (raster gridcell values) that intersect each vector point, and bind this back to our linestring vector object to get our results.</p>
 <div class="cell">
@@ -4905,7 +4905,7 @@ Warning
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df.zion_elev <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">extract</span>(r.srtm, sf.zion_transect)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># append back to our original object</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sf.zion_transect <span class="ot">=</span> <span class="fu">cbind</span>(sf.zion_transect, df.zion_elev)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sf.zion_transect</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf.zion_transect)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <details class="code-fold">
