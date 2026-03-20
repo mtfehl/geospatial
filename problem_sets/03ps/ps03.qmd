@@ -8,7 +8,7 @@ format:
   html:
     embed-resources: false
     code-fold: false
-image: "images/distributions.png"
+image: "/images/distributions.png"
 
 freeze: true
 

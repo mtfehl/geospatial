@@ -8,10 +8,10 @@ format:
   html:
     embed-resources: false
     code-fold: false
-image: "/images/raster_vec_ops.png"
+image: "/images/raster_vect_ops.png"
     
 execute:
-  eval: false
+  eval: true
   echo: true    
   message: false
   warning: false
