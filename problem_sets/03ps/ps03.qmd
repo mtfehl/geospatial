@@ -8,17 +8,16 @@ format:
   html:
     embed-resources: true
     code-fold: false
-  pdf:
-    toc: true
-    fig-format: png
 image: "distributions.png"
+
+freeze: true
 
 execute:
   eval: true
-  echo: true    
+  echo: true
   message: false
   warning: false
-  cache: false   
+  cache: false
 ---
 
 ```{r libraries, output='hide'}
