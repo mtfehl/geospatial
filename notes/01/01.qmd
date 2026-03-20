@@ -6,7 +6,7 @@ date: 2025-01-15
 class-notes: true
 format: 
   html:
-    embed-resources: true
+    embed-resources: false
 image: "/images/projections.png"
     
 execute:

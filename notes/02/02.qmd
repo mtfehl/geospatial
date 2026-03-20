@@ -6,7 +6,7 @@ date: 2026-01-21
 class-notes: true
 format:
   html:
-    embed-resources: true
+    embed-resources: false
 image: "/images/placeholder.png"
     
 execute:

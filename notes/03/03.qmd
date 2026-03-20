@@ -6,7 +6,7 @@ date: 2025-01-28
 class-notes: true
 format: 
   html:
-    embed-resources: true
+    embed-resources: false
     code-fold: false
 image: "iceland.jpg"
     

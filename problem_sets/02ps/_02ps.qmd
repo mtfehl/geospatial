@@ -6,7 +6,7 @@ date: 2026-02-02
 problem-set: true
 format: 
   html:
-    embed-resources: true
+    embed-resources: false
 image: "/images/vietnam-roads.png"
 
 execute:

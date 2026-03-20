@@ -6,7 +6,7 @@ date: 2026-02-25
 problem-set: true
 format: 
   html:
-    embed-resources: true
+    embed-resources: false
     code-fold: false
 image: "distributions.png"
 
