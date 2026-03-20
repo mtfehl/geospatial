@@ -12,6 +12,7 @@ listing:
       - notes/04
       - notes/05
       - notes/06
+      - notes/07
     include:
       class-notes: true
     type: grid

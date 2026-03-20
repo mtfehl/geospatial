@@ -4,6 +4,7 @@ description: " "
 author: "Michael Fehl"
 date: "19 February 2026"
 image: "/images/leaflet_map.png"
+class-notes: true
 format:
   html:
     toc: true
