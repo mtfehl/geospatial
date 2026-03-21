@@ -21,6 +21,9 @@ execute:
 ---
 
 ```{r libraries, output='hide'}
+#| code-fold: true
+#| code-summary: "libraries"
+
 # load in libraries
 rm(list=ls())
 library(terra)         # raster operations
